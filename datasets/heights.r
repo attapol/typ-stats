@@ -1,0 +1,6 @@
+weights = signif(rnorm(1000, 70, 7),2)
+heights.cm = weights + rnorm(1000, 100, 4)
+heights.foot = floor(heights.cm / 30)
+heights.inch = round((heights.cm - (heights.foot * 30)) * 12 / 30)
+data = data.frame(weights=weights, heights.foot = heights.foot, heights.inch = heights.inch)
+write.csv(data, file='~/typstats/datasets/heights.csv', row.names=F)

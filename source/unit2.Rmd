@@ -1,0 +1,183 @@
+---
+title: "Unit 2"
+output:
+  pdf_document: default
+  html_document:
+    keep_md: yes
+---
+
+# Goals
+
+* Summarize single variable real-valued data
+* First data set 
+* R and Google Spreadsheet to compute mean
+
+Datasets
+
+Income data from the census
+http://www.census.gov/census2000/PUMS.html
+
+Artificial height data
+
+# Summary statistics of a single variable
+
+In this basic scenario, we are given a bunch of numbers (a bunch of observations), and they look like a bunch of numbers. The most simple way to make sense of it is to compute summary statistics.
+
+A summary statistic is a number that summarize the data as simply as possible. We will learn the four main summary statistics. You might have learned these in high school, but I’m confident that there are subtleties about them that you might not have heard about. 
+
+\pagebreak
+
+# Mean (Arithmetic mean)
+Mean is the sum of all observations divided by the number of observations. It is supposed to tell the center or the middle of the data (formally “central tendency”). We also call this arithmetic mean because there are other kinds of means, but they are not as widely used as arithmetic mean.
+
+Suppose we have collected the height data from some people in the room. And the data look like this (in centimeters)
+
+$$175, 170, 180, 185, 165 $$
+
+Then, the arithmetic mean is $\frac{175+170+180+185+165}{5} = 175$ centimeters.
+
+## R Exercise
+Simple enough right? Let's use R to compute the mean. 
+```{r}
+(175+170+180+185+165) / 5
+```
+
+Alternatively, we can use `mean` function on a vector.
+
+First, we need to enter our data into a vector.
+```{r}
+heights = c(175, 170, 180, 185, 165)
+heights
+```
+
+Then, we compute the mean from the vector.
+```{r}
+mean(heights)
+```
+
+## Formal definition
+In general, the arithmetic mean is defined as follows:
+
+Suppose we have data points $x_1,x_2,x_3,\dots,x_n$. Then the arithmetic mean $\bar{x}$ of these data points are 
+$$ \frac{\sum_{i=1}^n x_i}{n} = \frac{x_1 + x_2 + x_3 + \dots + x_n}{n} $$
+
+The ability to understand mathematical notation can come in handy. You should note what the big sigma sign $\sum$, the $i=1$, and the $n$ mean. You will see the big sigma sign over and over. 
+
+\pagebreak
+
+# Mean maximizes happiness. 
+
+This can be proven mathematically, but we will work through an example to demonstrate this point. Let’s use the same dataset as before. 
+```{r}
+heights = c(175, 170, 180, 185, 165)
+```
+Suppose the torso length is 30% of the height. What should be the most appropriate torso length for each person?  
+```{r}
+torso_lengths = heights * 30 / 100
+torso_lengths
+```
+But we can only afford to have one size to fit all five people here. Let’s try 51 inches and see how well they fit people.
+```{r}
+error = torso_lengths - 51
+error
+```
+
+The error represents how much off the shirt is. Some textbooks call this ‘deviation’, ‘error’, or ‘residual’. But we will call it error. We cannot just sum it up yet. Why? 
+
+```{r}
+sum(error)
+```
+
+Some of the errors will cancel out. It’s like the errors from the first and the last persons don’t count at all. We have to work around it. Squaring it seems like a fair choice.
+
+```{r}
+error^2
+```
+
+Now the first person and the last person contribute equally when we sum up all of these squared errors. Let’s roll with this.
+```{r}
+sum(error^2)
+```
+
+Pretty awful, right? It’s way too big for some people and way too small for some people. In fact, the mean is the best size i.e. it pleases most of the people overall. 
+```{r}
+mean(torso_lengths)
+error = torso_lengths - mean(torso_lengths)
+error
+sum(error ^ 2)
+```
+
+The squared error is much lower than we fix the torso length of the shirt to 51 inches. 
+You cannot do better than this because mean minimizes the sum of squared error. This is also why mass produced stuff is always meh. The factory always goes for the mean to please the most people. 
+
+To repeat, **arithmetic mean pleases the most people**.
+
+Other examples : 
+
+* How long should the hand dryer go? 
+* How long should the automatic water faucet go?
+* How sweet should the mass produced ice-cream be?
+
+## Exercise
+Repeat the analysis on Google Spreadsheet
+
+\pagebreak
+
+# Work with real data
+
+As we said before, a data table comes in a machine-readable file. More specifically, they might come in one of these formats.
+
+1. Comma-separated file (.csv)
+```
+height.foot, height.inch, weight.kg
+5, 9, 76
+6, 0, 88
+```
+
+2. Tab-separated file (.tsv)
+```
+height.foot  height.inch	weight.kg
+5	9	76
+6	0	88
+```
+
+3. Excel file (.xls or .xlsx)
+
+We will only use csv files in this class because it can be read by both R and Spreadsheet. Spreadsheet can read most formats. But csv is arguably the most convenient (and possibly standard)
+
+## Data frames and data import in R
+
+First, download the dataset from here.
+```{r}
+data = read.csv('datasets/heights.csv')
+```
+
+Explore the dataset
+```{r}
+head(data)
+head(data$height.foot)
+head(data$weight)
+```
+Transform and convert the data
+```{r}
+data$height.cm = (data$height.foot  + data$height.inch / 12) * 30
+```
+Compute the mean
+```{r}
+mean(data$height.cm)
+```
+
+Bonus: how many people are at least 6 foot tall?
+```{r}
+sum(data$height.foot >= 6)
+```
+Bonus: what's the proportion of people who are at least 6 foot tall? There are two ways to compute this. Both are easy.
+```{r}
+sum(data$height.foot >= 6) / length(data$height.foot)
+mean(data$height.foot >= 6)
+```
+## Exercise:
+
+* Compute the mean weight in pounds.
+* Compute the number of people who are shorter than 150 centimeters.
+* Repeat the analysis on a Spreadsheet
