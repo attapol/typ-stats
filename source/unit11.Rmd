@@ -1,0 +1,158 @@
+---
+title: "Unit 11"
+output: html_document
+---
+# Goals
+
+* Simple linear regression : representation
+* Learning the parameters for simple linear regression
+
+# Simple Linear Regression
+
+We will cover a fundamental statistical model that is very versatile and applicable to almost all sciences and all datasets. Correlation coefficients only tell us whether you can or not. So we feel a little betrayed here. But linear regression is exactly the model that will help you do that. The application of linear regression abounds, and any intelligent person should really know about it. And I am not exaggerating here. 
+Cool things about regression
+It is the main tool that people use in the real world to predict the future
+
+- Predicting stock prices from previous year’s performance report
+- Predicting sales from the information about the clients
+- Predicting pollution levels from the environmental information
+
+It is one of the main mechanisms for inferring unknown quantities of interest.
+
+- Tagging a consumer review as positive or negative automatically based on past reviews.
+- Detecting automatically whether a credit card transaction is a fraud and needs human intervention or not. 
+
+It is also the main tool for explaining complex systems.
+
+- Estimating what factors influence the infection rate of a disease
+- Finding out whether and to what extent gender influences the salary of an employee
+- Finding out whether the input from experts is valuable to a decision at hand or not.
+
+In sum, regression models can be used to 
+
+1) infer unknown quantities (predictive model)
+2) explain the relationship between variables (explanatory model)
+
+\pagebreak
+
+# Regression model as a predictive model
+Enough of the soft fun stuff. A simple linear regression model has this form
+$$ y = \beta_0 + \beta_1 \cdot x $$
+where  $y$ is the unknown quantity (also called response variable or target), 
+$x$ is the predictor (variable correlated with $y$), and
+$\beta_0$ and $\beta_1$ are regression coefficients.
+Pay attention to $\beta_0$ and $\beta_1$. These are sometimes called parameters or weights or just betas. They will be learned automatically from the data. For now, assume that they are fixed to something educated. 
+
+## Example : predicting waiting time from people at the stop (revisited) 
+
+We agree now that we can predict the waiting time from the number of people at the bus stop.
+``` {r}
+library(ggplot2)
+data = read.csv('../datasets/waiting_time.csv')
+cor(data$num_people, data$waiting_time)
+time_plot = ggplot(aes(x=data$num_people, y=data$waiting_time), data=data) + 
+  scale_y_continuous('Waiting time (minutes)') + 
+  scale_x_continuous('Number of people') + theme_bw()
+time_plot + geom_point()
+``` 
+
+Suppose that we use a regression model to model the relationship between the waiting time and the number of people at the stop. What should the form look like?
+ i.e. what’s the unknown quantity that we want to predict ($y$) and
+what’s the predictor ($x$).
+$$y = \beta_0 + \beta_1 * x$$
+where $y$ is the waiting time (unknown quantity that we want to predict, response variable, target variable) and 
+$x$ is the number of people at the stop (predictor).
+
+You crank some number on the computer to get the values of the model parameters, $\beta_0$ and $\beta_1$. The form of the model might look like this:
+$$y = 2 + 0.6 * x$$
+```{r}
+time_plot + geom_point() + geom_abline(intercept=2, slope =0.6) 
+```
+
+If there are 10 people waiting at the stop, we will predict that the waiting time will be 
+$$y = 2 + 0.6 * 10 = 8 \mbox{minutes}$$
+Substitute 0.8 for $x$ and the prediction just pops right out. How about when there’s only one person waiting at the stop?
+TODO: Adding a few more examples. Go through them to show parameters and how to do ‘inference’ from the model. 
+
+## Example:
+Number of employees vs revenue
+
+
+\pagebreak
+
+# Evaluating regression model
+How did we get the parameters for the models that we saw earlier? We can learn the best parameters for the model from the data. The method that we will talk about yields the ‘best’ parameters from the data.
+
+What do we mean by best? The best parameters minimize the sum of squared error (SSE). 
+That means the best parameters will give the best prediction possible on average.
+
+Suppose $\hat{y_i}$ is our prediction for the data point $i$ and $y_i$ is the true answer for the data point $i$ (from the data). The squared error is then 
+$$\sum_{i=1}^{n} (y_i - \hat{y_i})^2 $$
+
+## Exercise : Compute sum of squared error (SSE)
+We want to use SSE to compare model 1:
+$$y = 2 + 0.6 * x$$
+and model 2:
+$$y = 1 + 0.7 * x$$
+
+```{r}
+time_plot + geom_point() + 
+  geom_abline(intercept=2, slope =0.6,color='red') + 
+  geom_abline(intercept=1,slope=0.7, color='blue')
+```
+
+The red line is from model 1, and the blue line is from model 2.
+Looking at the plots do not really help you much at all. We really need to use SSE to compare the models. 
+
+```{r}
+yhat = 2 + 0.6 * data$num_people
+y = data$waiting_time
+error_squared = (y - yhat)^2
+sum_of_squared_error = sum(error_squared)
+sum_of_squared_error
+```
+
+Your turn: compute the sum of squared error of the regression model 
+$$y = 1 + 0.7 * x$$
+Which one is a better model? 
+
+
+Sum of squared error is the metric for evaluating the set of parameters ($\beta_0$ and $\beta_1$) in the model. The best parameters should minimize SSE and therefore make the least mistake.
+
+\pagebreak
+
+# Learning the best parameters for regression model
+But hey we don't want to keep guessing the parameters until we get the lowest sum of squared error. 
+Some very smart people already figured this out for us. Fortunately for us, it's just one line of code in R.
+
+```{r}
+best_lm_model = lm(waiting_time ~ num_people, data=data)
+best_lm_model
+```
+
+We use the ``lm`` function in R. ``waiting_time ~ num_people`` means I want to predict ``waiting_time`` using ``num_people`` as a predictor. 
+The best parameters (regression coefficients are) 
+$\beta_0 = $ 
+```{r} 
+best_lm_model$coefficients[1]
+```
+and $\beta_1 = $
+```{r} 
+best_lm_model$coefficients[2]
+```
+
+## Exercise : Does ``lm`` actually give you the best model?
+As we have discussed before, the best model minimizes sum of squared error.
+Compare the SSE from the ``lm`` function with the model 1 
+$$y = 2 + 0.6 * x$$
+model 2:
+$$y = 1 + 0.7 * x$$
+and the best model from ``lm`` function:
+
+```{r}
+time_plot + geom_point() + 
+  geom_abline(intercept=2, slope =0.6,color='red') + 
+  geom_abline(intercept=1, slope=0.7, color='blue') +
+  geom_abline(intercept=best_lm_model$coefficients[1], 
+              slope=best_lm_model$coefficients[2], color='purple')
+```

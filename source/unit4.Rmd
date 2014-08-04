@@ -1,0 +1,125 @@
+---
+title: "Unit 4"
+output: pdf_document
+---
+# Goal
+
+* Why visualizing data?
+* Histogram and boxplot in R and Spreadsheet
+
+# Data visualization
+There has to be a better way than reporting numbers that represent more numbers. So far we only learn how to summarize a bunch of numbers with 2-3 numbers (mean, median, standard deviation, variance). These are sometimes just not enough. 
+
+Data visualization (plots, graphs, tables, etc.) helps you 
+
+1) understand the data better and 
+
+2) get your analysis across to the audience better when summary statistics are not descriptive enough.
+
+Again, let’s work through an example why visualization can really help in some cases.
+
+\pagebreak
+
+# Hands-on examples 
+They are test scores for a big lecture-based class. There are three test scores so far for each student: Quiz1, Quiz2, and Midterm. 
+
+*Exercise* Compute the summary statistics for each test. If you are the professor of that class, are you happy about the results? 
+
+A popular to visualize distribution of data is through histogram. Histogram shows how many data points are in each range.
+
+```{r,echo=FALSE}
+library(ggplot2)
+data = read.csv('../datasets/test_scores.csv')
+ggplot(aes(x=Quiz1),data=data) + geom_histogram(binwidth=2) + theme_bw()
+```
+
+* How many people scored in the range of 18 to 20? 
+* How many people scored in the range of 30 to 32?
+* By looking at the histogram in addition to the summary statistics, what else can we learn about the students’ performance on Quiz1?
+* If you need to draw a histogram by hand, what would be the steps?
+
+This funky-looking histogram gives you a better picture of the data (literally). Without visualization, it is hard to see this pattern in test score. A data visualization technique like histogramming can give you a new insight into the data.
+
+\pagebreak
+
+# Let’s make histograms
+
+Google Spreadsheet, Excel, and Numbers can all make very handsome histograms. 
+
+*Exercise:* Try them. Play with different bandwidth/bucket size/bin size (they all mean the same thing). Label the axes and write a good caption too.
+
+We will additionally learn how to make a histogram in R as well. It’s a lot more complicated, but it allows for much fancier plotting, which other software can’t do. So we should start making simple plots in R. 
+
+## Install a new library in R
+A library (or a package) is a collection of computer code that some smart people out there put together for you. You only need to download it and install it in order to use it. We will use ggplot2 library, which is a popular library for visualizing data in R. 
+
+1. Download and install the library. The name of the library to install must be put in quote, so that it’s not confused with variables or functions. To download and install ggplot2, use the following command. (you only need to do this once per computer)
+
+``install.packages(‘ggplot2’)``
+
+2. Load it. There are many packages installed on your machine. You are telling the R interpreter which package you want to use. (you have to do this every time you open R when you want to use it.)
+
+``library(‘ggplot2’)``
+
+That’s it. Now we are ready to make some histograms.
+
+\pagebreak
+
+## Making histograms in R
+
+``qplot`` command will make the best guess for you.
+```{r}
+test_score_data = read.csv('../datasets/test_scores.csv')
+qplot(Quiz1, data=test_score_data, binwidth=2)
+```
+
+\pagebreak
+
+``ggplot`` command is more sophisticated.
+```{r}
+ggplot(aes(x=Quiz1), data=test_score_data) + 
+geom_histogram(binwidth=2, color='red', fill='white') + theme_bw()
+```
+
+\pagebreak
+
+or even more fancy stuff (G Spreadsheet and Excel cannot do this)
+```{r}
+ggplot(aes(x=Quiz1), data=test_score_data) + 
+geom_histogram(aes(alpha=..count..), binwidth=2) + theme_bw(base_size=18)
+```
+
+\pagebreak
+
+# To use ggplot, you have to know these
+
+* You have to know how to map the data to the aesthetics (things that show on the plot). 
+** What goes into the value of x and y? 
+** What goes into the value of the fill (if it depends on the data)?
+
+* You add an element to the picture by using the + sign. If you don’t do that, ggplot2 will make some sensible guesses on how far apart each break should be, what color to use, the font size, axis labels, etc. 
+
+* You should know how to read the documentation because nobody remembers everything and has to look things up all the time. ggplot library is very well documented. Let’s go through http://docs.ggplot2.org/current/geom_histogram.html together. 
+
+\pagebreak
+
+## Y-axis of the histogram
+Usually, the y-axis of the histogram is the count of the data points that fall into each bin. We can also replace the count with the percentage if we prefer. 
+
+We then use y=..density.. (a weird ggplot idiosyncracy). geom_density will add the smoothed curve just for fanciness.
+```{r}
+ggplot(aes(x=Quiz1, y=..density..), data=test_score_data) + 
+geom_histogram(binwidth=2) + geom_density(color='red') + theme_bw(base_size=18)
+```
+
+## Exercises
+You should be able to make a simple histogram at this point. In addition, you should be able to adjust a few elements in the histogram to your liking. You should be able to answer the following. 
+
+* How do you set the variable to make the histogram for?
+* How do you change the color of the outline of each histogram bar?
+* How do you change the fill color of each bar?
+* How do you change the axis labels?
+* How do you change the theme to black and white?
+* How do you change the break points on the y-axis?. 
+
+We will explore more ways to customize your plots later in this course. 

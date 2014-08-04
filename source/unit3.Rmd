@@ -1,0 +1,189 @@
+---
+title: "Unit 3"
+output: pdf_document
+---
+
+# Goal
+
+* Median: definition, mean vs median
+* Variance and standard deviation: definitions, what they measures
+
+# Median
+Like mean, median is a summary statistic that indicates the middle of the data or “central tendency.” The median is computed by sorting all of the data points and picking the guy in the middle. For example, same height data
+$$175, 170, 180, 185, 165 $$
+
+First, we sort the data (in ascending or descending order; doesn’t matter.)
+$$165, 170, 175, 180, 185 $$
+
+Pick the guy in the middle
+$$165, 170, 175, 180, 185$$
+
+Easy enough? That 175-cm person seems like a good representative height of people in the room. 
+Why are there multiple ways of finding the “middle”
+Mean and median are both used very widely. They are appropriate for different purposes even for the exact same dataset. When people talk about average, sometimes they talk about median and sometimes mean. 
+Let’s work through a dataset to illustrate how these two statistics are used.
+
+\pagebreak
+
+# Case 1
+Suppose the English department asks its recent graduates for their starting salaries (in \$1000)
+
+$$53.2, 30.4, 32.2, 47.7, 379, 31.8, 44.2$$
+
+Everything seems normal but there’s that one person who probably gets lucky and makes tons of money from his/her first job. 
+
+```{r}
+salary = c(53.2, 30.4, 32.2, 47.7, 379, 31.8, 44.2)
+mean(salary)
+median(salary)
+length(salary) 
+```
+
+They are very very different. Which one should the department report to give an overall picture? Consider these scenarios:
+
+* If a prospective English major asks about a typical or “average” starting salary of a recent grad, should you report mean or median?
+* Now suppose that the English department was told that most recent graduates donate around 0.1% of their starting salaries to the department. If you want to predict the donation, should we base our prediction on mean or median?
+
+If you tell the prospective English majors the mean starting salary, that will be very misleading because the outlier “messes up” the mean. Median gives a better picture of a typical starting salary of an English major graduate. This is when you say “Well, on average it’s around X, but a few people make tons of money.”
+
+In the second case, we should report the mean because 0.1 % of the mean gives a better picture of the donation that the department will receive.
+
+##Summary
+
+The two summary statistics are good for different purposes. 
+
+Median is good as a representative value of the dataset.
+
+Mean is good when we have to predict the future value based on.
+
+\pagebreak
+
+# Case 2
+Suppose you’re a residential assistant who holds a weekly study break in the dorm. The RA from last year counted the number of people who came to the study break each week and kindly gave the data to you. 
+$$14, 15, 14, 10, 42, 13, 46, 39, 13, 12, 15$$
+
+Pretty random, right? Why were there so many people some weeks? They are not even final’s week! 
+Now consider these scenarios: (Discuss with your neighbor)
+
+* If another RA asks you how many people come to the study break typically, what would be a reasonable answer?
+* If another RA asks you how much food they should buy for the next study break, what would be a reasonable answer?
+
+The answers to these questions are not set to the stone because we now put the data into the more practical context. Things depend on the questions like:
+
+* Are you trying to brag about the attendance?
+* Is it ok to waste quite a bit of food some weeks? 
+* Would it disappoint people if they show up and there’s not enough food? 
+
+If you have a good amount of budget and want to be optimal (minimizing the amount of food wasted and minimizing the number of people who don’t get food), then use the mean. Why does it make sense?
+
+## Recap: mean vs median
+
+Median is good as a representative value of the dataset.
+
+Mean is good when we have to predict the future value based on.
+
+TODO:
+
+You should always report the sample size. 
+Examples from real life
+Every year the census bureau reports the median income. Why not mean?
+They also report the median age of the population. Why not mean?
+
+
+\pagebreak
+
+# Variance and standard deviation
+
+Telling the center or the typical value (“central tendency”) is usually not enough. Let’s work through an example to see how variance and standard deviation (sd) are computed and what they mean.
+
+Suppose you collect the data about how long the 5:45pm bus route A takes to get to Boston
+$$ 61, 66, 57, 56, 54, 59, 64, 63, 60, 59 $$
+
+You also collect the data about how long the 5:45pm bus route B takes to get to Boston.
+$$ 60, 59, 62, 60, 61, 60, 59, 60, 60, 60 $$
+
+*Exercise* : Now compute means and medians for these two datasets in R and Spreadsheet.
+
+The means and medians are almost exactly the same. But if you look closely at the data, do you prefer route A or route B? Why? 
+On average, these two routes are the same. They take you to Boston in around an hour. But route B is more consistent because there is not much variation in the arrival time. Route A is a bit more erratic. 
+Variance and standard deviation exactly capture the variation or the dispersion of the data. 
+
+\pagebreak
+
+# How to compute variance and standard deviation
+Variance is defined as the mean of the squared error.
+
+Standard deviation is defined as the square root of the variance. 
+
+Whoa whoa what is it? You don’t need to remember the definition BUT you have to know the why’s of each step.)
+
+1. First, take the mean (WHY? to find the center)
+```{r}
+bus1_data = c(61, 66, 57, 56, 54, 59, 64, 63, 60, 59)
+bus1_data_mean = mean(bus1_data)
+bus1_data_mean
+```
+
+2. Then compute how much each data point deviates from the mean. (WHY? we want to know how far each data point deviates from the center)
+```{r}
+error = bus1_data - bus1_data_mean
+error
+```
+
+3. Then square it (WHY? to make it all positives and negatives positive)
+```{r}
+squared_error = error ^ 2
+```
+
+4. Lastly, compute the mean (WHY? If we have 10,000 data points, squared error is then huge and hard to be compared with when we have 10 data points.)
+```{r}
+mean_squared_error = mean(squared_error)
+variance = mean_squared_error
+variance
+```
+
+5) We’ve got the variance. Now we want standard deviation. Just square root it.
+```{r}
+sqrt(variance)
+```
+
+Then we get the variance. You usually don’t have to do all this. You can just use the handy function in R. 
+```{r}
+var(bus1_data) 
+sd(bus1_data)
+```
+The answers are not exactly the same for some theoretical reasons. But let's ignore those for now.
+
+
+Variance and standard deviation will be much more useful later. Let’s keep these in our arsenal. For now, they are used to compare the dispersion or the amount of variation in the data. And again don’t forget to report the sample size.
+
+\pagebreak
+
+# Quality control: Variance reflects flakiness or uncertainty
+
+Compute the variance of the two laser cutters used in cutting the material into 100 millimeters in length. These cutters are not perfect, so the cut material is a bit off from 100 millimeters. You measure the length produced by two laser cutters to evaluate their effectiveness.
+
+Cutter A : 97  97 104 104  99 100  98  98 100 101 101 101
+
+Cutter B : 76 101  89 100  86  84  80  93  80  97 103 102
+
+Which of the two cutters should you prefer? Compute variance and standard deviation to make a decision. Report the sample size as well.
+
+# Grading on the curve: Standard deviation reflects how spread out the data are
+In a lot of college classes, you are assigned grades based on how many standard deviation you are away from the mean. This guarantees that the instructors don’t assign the same grade to everyone. In other words, you are graded relative to people in class.
+
+Consider this exam score example
+
+Economics exam (out of 100) : mean = 60, sd = 5
+
+Physics exam (out of 100) : mean = 60, sd = 25
+
+If you get 80 both in economics and physics, did you do well in economics? did you do well in physics? 
+
+# Welcome to college
+A rule of thumb is that if you are three sd’s (three sigmas) away from the mean, then you are better (or worse) than anyone else. In our example, 
+
+If you score higher than 60 + (3 x 5) = 75 in economics, then it is very likely you crush almost everyone. 
+
+You only need to know the mean and standard deviation to guess what kind of grade you will get. Most classes will give some sort of A to people who are 1.5 - 2 standard deviations from the mean. Welcome to college, everyone especially those of you who are pre-meds.
+
