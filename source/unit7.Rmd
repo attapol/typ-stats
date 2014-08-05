@@ -1,0 +1,165 @@
+---
+title: "Unit 7"
+output:
+  pdf_document:
+    fig_height: 3.6
+    fig_width: 4.8
+  html_document: default
+---
+
+# Goals
+
+* Statistical noise
+* Statistical testing
+
+# Motivation for statistical tests: statistical noise 
+
+From the data that we analyze earlier, there is a good amount of variation in the number of gadgets produced even in the same group of employees. Why?
+
+There are a few employees in the short lunch break group who are more productive than the ones in the long lunch break group. Why? 
+
+There are at least two sources of noise:
+
+* Data collection error
+* inherent variation in the system 
+
+The noise in the data make us uncertain about the conclusion we can draw. These are the very reasons why we need to use statistical tests. 
+
+Make sure you understand the motivation. The process for conducting statistical tests is more likely mechanical, and you can always look it up. Understanding the motivation is the most important thing to take away.
+
+\pagebreak
+
+# Probability distribution 
+
+Before we get to statistical test, we want to introduce the notion of probability distribution. A probability distribution is used to show or assign the probability of certain events happening. Let’s run through examples.
+
+## Example 1 : Probability distribution table
+The probability distribution over raining vs not raining tomorrow can be summarized in a table. 
+
+| Event                | Probability |
+| :------------------: | :---------: |
+| Raining tomorrow     | 0.9         |
+| Not raining tomorrow | 0.1         |
+
+A probability distribution consists of 
+
+1) a list of things that you want to assign probability to (e.g. raining vs not raining) 
+
+2) the probability assigned to each thing. It has to be between 0 and 1. Everything needs to sum to one like in the example. 
+
+The probabilities are usually calculated through some complicated computational process e.g. weather forecast model. Learning these probabilities is very powerful, which we will explore next semester. 
+
+\pagebreak
+
+## Example 2 : Probability distribution function
+
+Suppose we want to assign probability to the amount of rainfall tomorrow. It is not convenient to use tables anymore because they are so many values to assign probability for. 
+
+To test this, you can go around the dorm and ask who has exactly 7 dollars or 28 dollars or 40 dollars exactly in their wallet. Not very likely because dollars are continuous values. But if you ask who owns exactly 7 shirts, exactly 28 shirts, or 40 shirts. You are much more likely to be successful because number of shirts are discrete (count number). 
+
+Formally, we call this kind of variable continuous variable because it can many values on the number line.
+To assign probabilities to continuous variables, we use a function instead, and it looks like this.
+
+```{r, echo=FALSE}
+set.seed(3)
+library(ggplot2)
+data = data.frame(rainfall=rgamma(100,1,1))
+ggplot(aes(x=rainfall,y=..density..), data=data) + 
+  geom_density() + 
+  scale_x_continuous('Amount of rainfall (inches)') + theme_bw()
+```
+
+The x-axis is the amount of rainfall, and the y-axis is the probability assigned to each amount. 
+
+* What amount of rainfall is the most likely (highest probability)?
+* Between the probability of raining more than 4 inches and the probability of raining less than 3 inches, which one is greater? Fill the corresponding area in the graphs.
+
+The concept of probability distribution function is very useful and powerful. We will see more of this next semester.
+
+\pagebreak
+
+# Back to Statistical tests
+
+Statistical tests help indicate whether we have enough signal (and little enough noise) to make a conclusion. We will go over the overview of all statistical tests to demonstrate the logic behind it and the kind of problem it can solve.
+There are four steps in conducting statistical test
+
+1. Formulate the question
+2. Re-formulate the question mathematically
+3. Compute the probability distribution over the test statistic
+4. Draw a conclusion from the probability distribution
+
+Let’s look at the overview of each step
+
+1. Formulate the question
+
+From the electronic gadget dataset, for example, we would like to answer this multiple-choice question:
+Do longer lunch breaks increase the number of gadgets that employees can produce?
+
+a. Yes. Long lunch employees produce more.
+b. No. Long lunch employees produce less.
+
+2. Re-formulate the question mathematically
+
+Let $\bar{X_1}$ and $\bar{X_2}$ be the mean number of gadgets produced by long lunch employees and short lunch employees respectively. Then let $Y=\bar{X_1} - \bar{X_2}$ be the difference between the two means. 
+
+$Y$ is called a test statistic, the measure that will decide the outcome of the statistical test.
+Which of the following is true?
+
+a. $Y>0$ Long lunch employees produce significantly more.
+b. $Y<0$ Long lunch employees produce significantly less.
+
+But we have not taken noise into account yet. Y>0might be true just because of the data collection error or other factors that we do not know about.  Remember our motivation for statistical hypothesis testing? 
+
+\pagebreak
+
+3. Compute the probability distribution over the test statistic
+
+Note that this step actually depends on the dataset and on the question being asked. In some cases, we can compute the probability distribution over Y. In harder cases, we need to compute other statistics. Also, it depends on your philosophy and preferences of statistical methods. Statistics is sometimes a dark art. 
+
+For this running example, we need to compute 
+
+a. The probability that $Y>0$ (long lunch employees significantly produce more) = 0.98
+b. The probability that $Y<0$ (long lunch employees significantly produce less) = 0.02
+
+This is the more sophisticated step in statistical tests. We will discuss this step in more detail.
+
+4. Draw a conclusion from the probability distribution
+
+We have to set a significance level, which is the level of confidence that we require until we draw a conclusion. It is conventionally set to 0.05 level. This means that 
+If one of the answers receives more than 0.95 (1 - significance level) probability, then that answer is the conclusion.
+
+If not, then we cannot draw any (decisive) conclusion.
+
+For our example, 
+
+a. The probability that $Y>0$ (long lunch employees produce significantly more) = 0.98
+b. The probability that $Y<0$ (long lunch employees produce significantly less) = 0.02
+
+We conclude a. because the probability is greater than 0.95.  This is the answer to the original question posed in step 1. 
+
+Hypothetically, though if the results from step 3 give us. 
+
+a. The probability that $Y>0$ (long lunch employees produce significantly more) = 0.70
+b. The probability that $Y<0$ (long lunch employees produce significantly less) = 0.30
+
+You are only 70% sure about the answer. This is not enough evidence one way or another given our significance level of 0.05. So we do not draw a conclusion about this question. We cannot conclude either a. or b.
+We say that we do not have enough evidence to support the hypothesis that long lunch breaks affect the productivity one way or another. 
+
+\pagebreak
+
+# Significance level and the world
+
+Let’s look at this case again.
+
+a. The probability that $Y>0$ (long lunch employees produce significantly more) = 0.70
+b. The probability that $Y<0$ (long lunch employees produce significantly less) = 0.30
+
+We are 70% sure about a. 
+
+* If we want to conclude a., do we have to raise or lower significance level?
+* Why can’t we just adjust our significance level to be more level and conclude a.? 
+* Suppose we do that, what will be the consequences?
+
+The significance level of 0.05 constructs this world. statistical hypothesis testing dictates what is a fact and what is a total BS in this world. Some of these scientific facts are fundamental building blocks of this world. 
+
+The world will become an entirely different place if all scientists and policy makers adjust the significance level. And I am not exaggerating here.

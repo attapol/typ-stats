@@ -1,0 +1,7 @@
+set.seed(5)
+caffeine = rnorm(50, 0, 1)
+productivity = 100 + 0.01 * caffeine - 2.5 * caffeine ^ 2 + rnorm(50,0,1)
+caffeine_data = data.frame(caffeine = caffeine * 100 + 100, productivity=productivity)
+caffeine_data = subset(caffeine_data, caffeine > 0 & caffeine < 250)
+plot(caffeine_data$caffeine, caffeine_data$productivity)
+write.csv(caffeine_data, file='caffeine_data.csv')

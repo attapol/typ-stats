@@ -1,0 +1,217 @@
+---
+title: "Unit 5"
+output:
+  pdf_document:
+    fig_height: 3.6
+    fig_width: 4.8
+  html_document: default
+---
+
+# Goals
+
+* Group variables: analysis and visualization
+* Boxplot
+
+# Numbers are (almost) meaningless without comparison.
+
+Statistics allows you to make meaningful comparison of anything. People usually want to know whether doing something makes a significant difference or not. Therefore, we usually have at least two groups of data the comparison of which yield a new insight.
+
+What are the kind of comparison people want to make? What is the baseline for comparison for each of these examples?
+
+* The school decides to hire more teachers. Does that make a difference? In terms of what?
+* A soda factory decides to use high-fructose corn syrup instead of sugar. Does that make a difference? In terms of what?
+* A company decides to advertise more on facebook. Does that make a difference? In terms of what?
+
+Once we define more specifically what we want to measure, we can start comparing them.
+
+# Comparing summary statistics
+We have learned how to compute mean, median, variance, and standard deviation. We can compute these summary statistics for each of the groups and compare them. Let’s run through an example. There is nothing hard conceptually, fortunately.
+
+An iPhone app company is thinking about rolling out its new user interface. They want to know whether the change will affect users’ engagement or not. They keep half of the users on the old interface and roll out the new interface to the other half. For each user, they measure engagement through time spent on the app within one session. 
+
+## Summarize data by groups in R
+Doing this in R is a bit convoluted. We use function ``ddply`` from the ``plyr`` library. Here’s an example:
+
+```{r}
+d = read.csv('../datasets/ui_study.csv')
+library(plyr)
+ddply(d, c('age','interface'), summarize, mean=mean(duration), standard_deviation=sd(duration))
+```
+
+* ``d`` is the dataset
+* ``c('age', 'interface')`` are the grouping variables
+
+How can you interpret these results? Should they start rolling out the new user interface to all users? Does age makes a difference?
+
+## Summarize data by groups by clicking: Pivot tables
+Pivot table is cool stuff! like really cool. It was invented by a Brandeis alumnus, and he is now teaching here in the computer science department. 
+An example of pivot table is in the spreadsheet where you found the data.
+
+# Summarize data by groups visually
+This is when things get more interesting. There are many ways to do this. It depends on what you like and what point you want to make from this. We want to focus on these methods:
+
+* A table that displays summary statistics by groups (e.g. pivot table)
+* A bar graph that displays summary statistics by groups
+* An overlaying histogram 
+* A multi-faceted histogram 
+* A boxplot 
+
+In our example, the summary statistics suggest that age does not seem to matter. But the interface seems to increase time spent on the app. Let’s show visually that it’s true. 
+
+*Exercise :* Design by hand what you want the plot to look like. What goes on the x axis? what goes on the y-axis? etc.
+
+## Summary statistics tables
+Essentially, we want turn this R output or Pivot table into a presentable form
+
+```{r} 
+ddply(d, c("age","interface"), summarize, mean=mean(duration), 
+      standard_deviation=sd(duration),n=length(duration))
+```
+
+You can use Word or google doc or powerpoint or any software that you know how to use to make a good looking table. Here’s my attempt:
+TODO: put the table from the google drive here
+
+
+Google doc is pretty lousy with tables. But you should know how to make a table with software of your choice (e.g. Word, Keynote, Powerpoint, Pages)
+
+## Summary statistics barplot
+
+```{r}
+library(ggplot2)
+ss = ddply(d, c("age","interface"), summarize, mean=mean(duration), 
+           standard_deviation=sd(duration),n=length(duration))
+ggplot(aes(x=interface, y=mean, fill=age),data=ss) + geom_bar(stat='identity') 
+```
+
+Translation : 
+
+* x-axis shows the interface (old or new)
+* y-axis shows the mean
+* the fill color shows the age 
+* data comes from the summary statistics that we compute using ddply
+* we want a barplot (geom_bar) that shows the number as it is provided (stat=’identity’)
+
+Yuck it is stacked up and difficult to read. The best guesses from ``ggplot`` are pretty bad. We have to tell it to be more specific.
+Let’s try again
+
+\pagebreak
+```{r}
+ggplot(aes(x=interface, y=mean, fill=age),data=ss) + 
+  geom_bar(stat='identity',position='dodge') + theme_bw(base_size=14)
+```
+
+Translation (only the differences from last plot) :
+
+* I want the bars to dodge each other not stacked (``position = ‘dodge’``)
+* I want black and white background (``theme_bw``) and increase the base font size to 14. (``base_size=14``)
+
+I think this look a little better than the previous version. But it seems cramped and the color looks a bit too happy. let’s do it again.
+
+\pagebreak
+
+```{r}
+ggplot(aes(x=interface, y=mean, fill=age),data=ss) + 
+  geom_bar(stat='identity', position='dodge') + 
+  scale_y_continuous(name='Mean duration on app (seconds)',limits=c(0,50)) + 
+  scale_fill_manual(values=c('red','blue')) + theme_bw(base_size=14)
+```
+
+Translation:
+
+* I want to customize the continuous y-axis (``scale_y_continuous``) by changing the label of it and also changing the limits to [0, 50] 
+* I want to also customize the filling (``scale_fill_manual``) by changing the colors of group 1 and group 2 to red and blue respectively. 
+
+It looks ok now, I think. You should keep polishing your barplot until it is beautiful to your liking.
+
+\pagebreak
+
+# Overlaying histograms
+
+We have already learned how to make histogram. Now we want to make histograms by group. 
+You only need to add ``fill`` aesthetics to map to the grouping variables. For example:
+
+```{r}
+ggplot(aes(x=duration,fill=age),data=d) + 
+  geom_histogram(binwidth=2.5, position='dodge') + theme_bw()
+```
+
+Overlaying the two histograms. One for the young group and the other for the middle age group.
+It is somewhat clear that the app has many more young users than middle age users. 
+Young users also tend to spend more time on the app.
+
+```{r}
+ggplot(aes(x=duration,fill=interface),data=d) + 
+  geom_histogram(binwidth=2.5, position='dodge') + theme_bw()
+```
+
+Overlaying the two histograms. One for the new interface and the other for the old interface.
+The new interface seems to make people spend more time on the app but only slightly.
+
+\pagebreak
+
+```{r}
+ggplot(aes(x=duration,fill=interaction(age,interface)),data=d) + 
+  geom_histogram(binwidth=2.5, position='dodge') + theme_bw()
+```
+
+Since the age and the interface interact, we have four subgroups to plot. 
+We use ``interaction(age,interface)`` to tell ggplot to get all four subgroups and produce four histogram overlaying on each other.
+
+They look very busy and not very informative. The histograms are not very good when there are a lot of groups like this. We can avoid them by using ``geom_density`` to draw curves.
+
+```{r}
+ggplot(aes(x=duration,fill=interaction(age,interface)),data=d) + 
+  geom_density() + theme_bw()
+```
+
+Yuck they all lay on top of each other. Let's make them translucent so that we can see all of them at once. 
+We can do that by setting ``alpha`` to something less than 1 (opaque) and greater than 0 (transparent).
+
+```{r}
+ggplot(aes(x=duration,fill=interaction(age,interface)),data=d) + 
+  geom_density(alpha=0.4) + theme_bw()
+```
+
+Ah much better. What do you see here? Does that help your analysis a bit?
+
+*Exercise*: Compare young + old interface vs young + new interface. 
+
+To reduce the data to just the young group, you can do ``subset(d, age=='young')``.
+
+\pagebreak
+
+# Multiple separate plots (multi-facetting)
+
+These graphs are kinda hard to read when we put them all in one plot even with only ``geom_density`` and no ``geom_histogram`` . 
+Another neat way is to put them in separate plot or facet. It is very easy in ggplot. 
+Let's separate out those histograms using faceting.
+
+```{r}
+ggplot(aes(x=duration,y=..density..), data=d) + 
+  geom_histogram(binwidth=2.5, color='white') +
+  geom_density(fill='grey', alpha=0.4) + 
+  facet_wrap(interface~age) + theme_bw()
+```
+
+Pay attention to our new command ``facet_wrap(interface~age)`` 
+
+It says that the rows vary by ``interface`` and the columns vary by ``age``. 
+
+What do you see in the plot above? Do you like it better than overlaying histograms?
+
+\pagebreak 
+
+If that's too busy for you, you can look at one factor at the time.
+
+```{r}
+ggplot(aes(x=duration,y=..density..), data=d) + 
+  geom_histogram(binwidth=2.5, color='white') +
+  geom_density(fill='grey', alpha=0.4) + 
+  facet_wrap(~age) + theme_bw()
+
+ggplot(aes(x=duration,y=..density..), data=d) + 
+  geom_histogram(binwidth=2.5, color='white') +
+  geom_density(fill='grey', alpha=0.4) + 
+  facet_wrap(~interface) + theme_bw()
+```
+

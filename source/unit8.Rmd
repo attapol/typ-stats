@@ -1,0 +1,136 @@
+---
+title: "Unit 8"
+output:
+  html_document: default
+  pdf_document:
+    fig_height: 3.6
+    fig_width: 4.8
+---
+
+# Goals
+
+* Recapitulate the motivation and the process of statistical hypothesis testing
+* Bootstrapping generates the test statistic in the simulated alternate world
+
+# That was fun. Let’s do it again.
+
+It is very important to know that you know the motivation for statistical hypothesis testing and the typical process of statistical hypothesis testing. 
+* What is the motivation for statistical hypothesis testing?
+* What are the typical four steps in conducting a statistical test?
+
+# Facebook study
+Read this paper “Experimental evidence of massive-scale emotional contagion through social networks”. Download the pdf here http://www.pnas.org/content/111/24/8788.full 
+
+* The authors conduct two experiments. Explain their process of hypothesis testing for each experiment. 
+
+# Aside : t-test for hypothesis testing
+
+So far we assume that we have a way to construct a probability distribution. In fact, there are many ways to carry out this step. It is an active area of research because there are many types of data. 
+
+In classical hypothesis testing, we do not construct a probability distribution over a test statistic given the data. We use other tools to compute p-value. t-test is probably the most used test in computing p-values.
+When you run a t-test (or other classical tests), it gives you a p-value. 
+
+This p-value thing is very confusing and a bit hard to understand so we won’t try that this semester. 
+But the bottom line is if the p-value is less than your cut-off (usually 0.05), then the effect is statistically significant. 
+
+## Example 1
+
+Let’s conduct a t-test on the productivity study data that we discussed earlier.
+
+```{r}
+data = read.csv('../datasets/lunch_data.csv')
+long_lunch_data = subset(data,condition=='long')$productivity
+short_lunch_data = subset(data,condition=='short')$productivity
+t.test(long_lunch_data, short_lunch_data)
+```
+
+Or you can make it shorter :
+
+```{r}
+t.test(productivity~condition, data)
+```
+
+if the p-value is less than your cut-off (usually 0.05), then the difference is statistically significant. Take this step as a face value for now. This t-test thing is a classical technique that people should know. But I personally don’t prefer this method. 
+
+
+## Example 2
+A study on the effect of two soporific drugs on the increase of sleeping hours in 10 patients. 
+```{r}
+sleep
+t.test(extra ~ group, data = sleep)
+```
+
+What’s the p-value? What can we conclude?
+
+We will discuss the meaning of p-value and more classical hypothesis testing next semester. For now, we will go back where we have left off and look at a simple method for constructing probability distribution over the test statistic.
+
+\pagebreak
+
+# Bootstrap for constructing a probability distribution over a test statistic
+
+Bootstrap is a simple technique for computing the probability of the test statistic taking a certain range of value. To demonstrate how each step works, let’s go through an example from the soporific drug study. 
+
+* Before we start, go over the four steps for conducting hypothesis testing for this example.
+
+\pagebreak
+
+# Bootstrap algorithm (steps of calculation)
+
+## Step 1. Resample the data
+
+By resampling, one take random rows from the dataset to make a fake dataset of the same size. We call this bootstrap resample. For example, if the original dataset looks like this
+```{r}
+sleep
+```
+
+Then a fake dataset (bootstrap resample) might look like this: 
+```{r}
+new_data = sleep[sample(1:nrow(sleep), replace=TRUE),]
+new_data
+```
+
+We should note three important things about the fake dataset (bootstrap resample)
+
+1) The rows are picked randomly from the original dataset.
+2) The number of rows of the original dataset is equal to the number of rows of the bootstrap resample.
+3) There are some duplicate rows in the bootstrap resamples. 
+
+These are the three important features that making this algorithm work. 
+
+## Step 2. Compute the quantity of interest from the bootstrap resample.
+We are interested in the mean difference in extra hours of sleep. So we will go ahead and compute that the mean difference. 
+```{r} 
+mean(subset(new_data, group == 1)$extra) - mean(subset(new_data, group==2)$extra)
+```
+
+## Step 3. Repeat steps 1 and 2 many many times. 
+
+In this dataset, we will end up with many different values of the mean difference in extra hours of sleep (computed from the bootstrap resamples).
+From these values, we can compute the probability that the mean difference in extra hours of sleep is greater than zero.  = 
+$$\frac{ \mbox{the number of bootstrap resamples whose mean difference} > 0} 
+      {\mbox{the total number of bootstrap resamples}}$$
+      
+All of this can be done using package boot in R (no way to do this easily on Spreadsheet)
+
+```{r}
+library(boot)    
+set.seed(3)
+statistic = function(x, indices) {
+  group1 = subset(x[indices,],group==1)$extra
+  group2 = subset(x[indices,],group==2)$extra 
+  mean(group1) - mean(group2)
+}
+b = boot(sleep, statistic, 100)
+mean_differences = b$t
+mean(mean_differences > 0)
+```
+The probability that the mean difference is greater than 0 is 0.96, which is greater than 0.95. We can be pretty confident (96% confident, to be exact) that drugs administered in group 2 make the patients sleep longer than drugs administered in group 1. 
+
+Not too bad right? The new things we need to learn are:
+
+1) how to write a ``function``
+2) how to use ``boot`` function 
+
+Let’s work on a lab assignment together to get some practice with bootstrap hypothesis testing. 
+
+TODO: make a lab exercise for in class and take-home

@@ -1,0 +1,71 @@
+---
+title: "Unit 6"
+output: 
+  html_document: default
+  pdf_document:
+    fig_height: 3.6
+    fig_width: 4.8
+---
+
+# Goals
+
+* Boxplot
+* Data visualization exercises
+
+# Previously
+
+We have learned how to use 
+
+1) table
+2) pivot table
+3) bar plot
+4) overlaying histogram
+5) multi-faceted histogram. 
+
+These are really awesome forms of data visualization. We will look at boxplot this time and look pros and cons of each method. 
+
+# Boxplot
+
+Histograms can be pretty messy and too fine-grained because they show so many things i.e. the count of data in each bin in each group. 
+
+And summary statistics can be too coarse because they leave out too much information. Boxplot is something in the middle. And this is sometimes what we want.
+
+# What is shown in a boxplot?
+
+There is a variation for what a boxplot shows.
+Traditionally, a boxplot shows six things:
+
+1. Top whisker - some extreme high value. (we will not talk about the detail)
+2. Top of the box - 75% percentile
+3. Middle of the box - 50% percentile (median)
+4. Bottom of the box - 25% percentile
+5. Bottom whisker - some extreme low value. (we will not talk about the detail)
+6. Dots - Beyond extreme values.
+
+To carry on the UI study example from last unit, a boxplot might look like this.
+
+For just age grouping variable, 
+```{r}
+d = read.csv('../datasets/ui_study.csv')
+library(ggplot2)
+ggplot(aes(x=age, y=duration),data=d) + geom_boxplot() + theme_bw()
+```
+
+For all interactions, 
+```{r}
+ggplot(aes(x=interaction(age,interface), y=duration),data=d) + geom_boxplot() + theme_bw()
+```
+
+Questions
+
+* What would a boxplot look like if the variance is low?
+* If there are many extreme values, what would a boxplot look like?
+* What’s the disadvantage of boxplots compared to histogram?
+
+\pagebreak
+
+# Data visualization exercises
+
+We have learned quite a few ways to compare groups. We all can use some exercises to absorb the intuition of data visualization. 
+
+TODO: add datasets for visualizatio exercises here.
