@@ -1,5 +1,6 @@
 set.seed(3)
 num_people = rpois(20, 4)
-waiting_time = rnorm(20, 2 + num_people * 0.8, 2)
+waiting_time = rnorm(20, 10 + num_people * - 0.8, 2)
 data = data.frame(num_people=num_people, waiting_time = waiting_time)
+plot(data)
 write.csv(data, file='waiting_time.csv')

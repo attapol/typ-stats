@@ -1,10 +1,10 @@
 ---
 title: "Unit 8"
 output:
-  html_document: default
   pdf_document:
     fig_height: 3.6
     fig_width: 4.8
+  html_document: default
 ---
 
 # Goals
@@ -23,7 +23,9 @@ Read this paper “Experimental evidence of massive-scale emotional contagion th
 
 * The authors conduct two experiments. Explain their process of hypothesis testing for each experiment. 
 
-# Aside : t-test for hypothesis testing
+\pagebreak
+
+# t-test for hypothesis testing
 
 So far we assume that we have a way to construct a probability distribution. In fact, there are many ways to carry out this step. It is an active area of research because there are many types of data. 
 
@@ -32,6 +34,8 @@ When you run a t-test (or other classical tests), it gives you a p-value.
 
 This p-value thing is very confusing and a bit hard to understand so we won’t try that this semester. 
 But the bottom line is if the p-value is less than your cut-off (usually 0.05), then the effect is statistically significant. 
+
+\pagebreak
 
 ## Example 1
 
@@ -52,6 +56,7 @@ t.test(productivity~condition, data)
 
 if the p-value is less than your cut-off (usually 0.05), then the difference is statistically significant. Take this step as a face value for now. This t-test thing is a classical technique that people should know. But I personally don’t prefer this method. 
 
+\pagebreak
 
 ## Example 2
 A study on the effect of two soporific drugs on the increase of sleeping hours in 10 patients. 
@@ -133,4 +138,3 @@ Not too bad right? The new things we need to learn are:
 
 Let’s work on a lab assignment together to get some practice with bootstrap hypothesis testing. 
 
-TODO: make a lab exercise for in class and take-home

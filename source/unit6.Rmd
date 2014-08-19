@@ -9,6 +9,7 @@ output:
 
 # Goals
 
+* Percentile
 * Boxplot
 * Data visualization exercises
 
@@ -16,13 +17,58 @@ output:
 
 We have learned how to use 
 
-1) table
-2) pivot table
-3) bar plot
-4) overlaying histogram
-5) multi-faceted histogram. 
+1) Table
+2) Pivot table
+3) Bar plot
+4) Overlaying histogram
+5) Multi-faceted histogram 
 
 These are really awesome forms of data visualization. We will look at boxplot this time and look pros and cons of each method. 
+Boxplot itself relies on other summary statistics: percentile.
+
+# Percentile
+
+Remember the 99% movement couple years ago? It is actually statistically-motivated. 
+
+If you are at 99th percentile of the income distribution, then you are relatively very rich.
+You earn more than 99% of the people (and only 1% of the people earn more than you.).
+
+If we do not want the income disparity to be too severe, we want the relatively rich people (e.g. 99th percentile) to not be too rich. 
+
+```{r,echo=FALSE}
+library(ggplot2)
+d = read.csv('../datasets/income_percentile.csv')
+ggplot(aes(percentile, Income),data=d) + geom_point() + geom_line() + scale_x_continuous('Percentile') + scale_y_continuous('Income')  + theme_bw()
+```
+
+Wow the relatively rich people have a lot of money. But let's discard the insane rich people and look at the bottom 80%.
+
+```{r,echo=FALSE}
+ggplot(aes(percentile, Income), data=subset(d, percentile<85)) + 
+  geom_point() + geom_line() + scale_x_continuous('Percentile') + scale_y_continuous('Income')  + theme_bw()
+```
+
+The middle class people earn reasonably well.
+
+50th percentile earns 42k
+
+60th percentile earns 57k
+
+But the upper middle class earn much much more.
+
+70th percentile earns 73k
+
+80th percentile earns 97k
+
+## Definition
+
+The values of the $n$th percentile of the data are the values that are greater than $n$% of the data. 
+
+If your height is at 80th percentile, then you are taller than 80% of the people. If sort people by height, 80% of the people will be on your left. 
+
+![percentile](http://www.mathsisfun.com/data/images/percentile-80.gif)
+
+\pagebreak
 
 # Boxplot
 
@@ -61,11 +107,3 @@ Questions
 * What would a boxplot look like if the variance is low?
 * If there are many extreme values, what would a boxplot look like?
 * What’s the disadvantage of boxplots compared to histogram?
-
-\pagebreak
-
-# Data visualization exercises
-
-We have learned quite a few ways to compare groups. We all can use some exercises to absorb the intuition of data visualization. 
-
-TODO: add datasets for visualizatio exercises here.

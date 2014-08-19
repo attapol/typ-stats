@@ -1,0 +1,5 @@
+d = read.csv('income_percentile.csv')
+set.seed(5)
+income = sample(d$Income, size = 100000, replace=T) + rnorm(100000, 0, 1000)
+data = data.frame(income=income)
+write.csv(data, file='income.csv')

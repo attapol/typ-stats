@@ -12,13 +12,6 @@ output:
 * First data set 
 * R and Google Spreadsheet to compute mean
 
-Datasets
-
-Income data from the census
-http://www.census.gov/census2000/PUMS.html
-
-Artificial height data
-
 # Summary statistics of a single variable
 
 In this basic scenario, we are given a bunch of numbers (a bunch of observations), and they look like a bunch of numbers. The most simple way to make sense of it is to compute summary statistics.
@@ -149,7 +142,7 @@ We will only use csv files in this class because it can be read by both R and Sp
 
 First, download the dataset from here.
 ```{r}
-data = read.csv('datasets/heights.csv')
+data = read.csv('../datasets/heights.csv')
 ```
 
 Explore the dataset

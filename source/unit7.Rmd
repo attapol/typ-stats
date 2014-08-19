@@ -78,7 +78,7 @@ The concept of probability distribution function is very useful and powerful. We
 
 \pagebreak
 
-# Back to Statistical tests
+# Statistical tests
 
 Statistical tests help indicate whether we have enough signal (and little enough noise) to make a conclusion. We will go over the overview of all statistical tests to demonstrate the logic behind it and the kind of problem it can solve.
 There are four steps in conducting statistical test
@@ -90,7 +90,7 @@ There are four steps in conducting statistical test
 
 Let’s look at the overview of each step
 
-1. Formulate the question
+## 1. Formulate the question
 
 From the electronic gadget dataset, for example, we would like to answer this multiple-choice question:
 Do longer lunch breaks increase the number of gadgets that employees can produce?
@@ -98,7 +98,7 @@ Do longer lunch breaks increase the number of gadgets that employees can produce
 a. Yes. Long lunch employees produce more.
 b. No. Long lunch employees produce less.
 
-2. Re-formulate the question mathematically
+## 2. Re-formulate the question mathematically
 
 Let $\bar{X_1}$ and $\bar{X_2}$ be the mean number of gadgets produced by long lunch employees and short lunch employees respectively. Then let $Y=\bar{X_1} - \bar{X_2}$ be the difference between the two means. 
 
@@ -112,7 +112,7 @@ But we have not taken noise into account yet. Y>0might be true just because of t
 
 \pagebreak
 
-3. Compute the probability distribution over the test statistic
+## 3. Compute the probability distribution over the test statistic
 
 Note that this step actually depends on the dataset and on the question being asked. In some cases, we can compute the probability distribution over Y. In harder cases, we need to compute other statistics. Also, it depends on your philosophy and preferences of statistical methods. Statistics is sometimes a dark art. 
 
@@ -123,7 +123,7 @@ b. The probability that $Y<0$ (long lunch employees significantly produce less) 
 
 This is the more sophisticated step in statistical tests. We will discuss this step in more detail.
 
-4. Draw a conclusion from the probability distribution
+## 4. Draw a conclusion from the probability distribution
 
 We have to set a significance level, which is the level of confidence that we require until we draw a conclusion. It is conventionally set to 0.05 level. This means that 
 If one of the answers receives more than 0.95 (1 - significance level) probability, then that answer is the conclusion.

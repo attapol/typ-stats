@@ -10,7 +10,7 @@ output:
 # Goals
 
 * Group variables: analysis and visualization
-* Boxplot
+* More advanced ggplot 
 
 # Numbers are (almost) meaningless without comparison.
 
@@ -68,9 +68,7 @@ ddply(d, c("age","interface"), summarize, mean=mean(duration),
       standard_deviation=sd(duration),n=length(duration))
 ```
 
-You can use Word or google doc or powerpoint or any software that you know how to use to make a good looking table. Here’s my attempt:
-TODO: put the table from the google drive here
-
+*Exercise:* use Word or google doc or powerpoint or any software that you know how to use to make a good looking table. 
 
 Google doc is pretty lousy with tables. But you should know how to make a table with software of your choice (e.g. Word, Keynote, Powerpoint, Pages)
 

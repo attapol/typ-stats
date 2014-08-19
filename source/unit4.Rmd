@@ -1,6 +1,10 @@
 ---
 title: "Unit 4"
-output: html_document
+output:
+  pdf_document:
+    fig_height: 3.6
+    fig_width: 4.8
+  html_document: default
 ---
 # Goal
 
@@ -23,7 +27,7 @@ Again, let’s work through an example why visualization can really help in some
 # Hands-on examples 
 They are test scores for a big lecture-based class. There are three test scores so far for each student: Quiz1, Quiz2, and Midterm. 
 
-*Exercise* Compute the summary statistics for each test. If you are the professor of that class, are you happy about the results? 
+*Exercise:* Compute the summary statistics for each test. If you are the professor of that class, are you happy about the results? 
 
 A popular to visualize distribution of data is through histogram. Histogram shows how many data points are in each range.
 
@@ -94,8 +98,8 @@ geom_histogram(aes(alpha=..count..), binwidth=2) + theme_bw(base_size=18)
 # To use ggplot, you have to know these
 
 * You have to know how to map the data to the aesthetics (things that show on the plot). 
-** What goes into the value of x and y? 
-** What goes into the value of the fill (if it depends on the data)?
+  + What goes into the value of x and y? 
+  + What goes into the value of the fill (if it depends on the data)?
 
 * You add an element to the picture by using the + sign. If you don’t do that, ggplot2 will make some sensible guesses on how far apart each break should be, what color to use, the font size, axis labels, etc. 
 

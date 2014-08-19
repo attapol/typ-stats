@@ -1,0 +1,105 @@
+---
+title: "Unit 1"
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
+
+# Goals
+
+* Introduce the whole pipeline of data analysis
+* Basic data manipulation in R 
+
+# Intro
+
+Many argue that now is the age of data. But why now? Now, we have many automatic mechanisms for collecting and storing data. Like what?
+
+* Facebook has a lot of information about people e.g. relationship status, family member, interests etc. Data collection is almost automatic because the users somehow willingly enter their information.
+* Netflix knows what you watch. Data collection here is also automatic. 
+* Grocery stores remember all of the items you buy from the store by matching the purchases with the credit cards. Data collection is also automatic. 
+
+Cool, but why do we care to collect these data to begin with? Because they provide a lot of actionable insights. Like what?
+
+* From your personal information that you willingly enter into the Facebook world, they can get the trajectory of how one comes of age.
+* From your viewing history, Netflix can recommend movies to your taste.
+* From your purchase history, grocery stores can adjust their orders with the suppliers accordingly. 
+
+This leads to the second reason why now is the age of data. We know many math tricks called computational models that can theoretically get good stuff out of the data, but we now have a lot of computing capability to use these models effectively to mine these cool insights from gigantic amount of data. Computers keep getting more powerful for much cheaper. 
+
+Now anyone can analyze a large amount of data with their laptop OR EVEN AN IPAD. Basically, you already have the power in your hand to analyze most datasets.
+
+\pagebreak
+
+# Great. I am not really a 'math person'.
+Sure those data nerds at Facebook and Netflix eat and breathe data for you already, and you might not be interested in being that hard core. You should still care about data analysis skill simply because it’s a very versatile useful skill for almost every discipline (even non-quantitative majors) and many career paths. For example, 
+
+* Business consultants use data visualization and analysis to convince their clients.
+* Non-profit project managers use them to get more funding from other agencies.
+* Psychologists and sociologists use many statistical tools to understand human behavior.
+* Team managers use them to summarize the growth and the achievements of their teams.
+
+And seriously, if you know the stuff covered in this course really well, you can do that part of their jobs comfortably and pick up even more sophisticated techniques on your own. 
+
+> Even if you are not a 'math person' or will not do anything quantitative, you will need to know something about data analysis and visualization. The main skill that I want you to have is how to argue with data and understand how it's done.
+
+
+# Readings
+* [Facebook Mother's day study](readings/Mothers_Day_2014.pdf)
+* [Pundit vs Data](readings/pundits_vs_data.pdf)
+
+\pagebreak
+
+# Data analysis pipeline
+
+A typical process looks like this
+
+(Questions) → Raw data things  → Data table files → Plots and summaries → Presentation + Narrative
+
+## Questions and raw data things
+
+Many ways to obtain a dataset. For example:
+
+* Make people fill out a form or a survey or a table directly.
+* There might be electronic records lying around, and then we write a computer program to pull out the data and put it in a table that looks like the one above. 
+* Some organization kindly make datasets publicly available.
+* Hire a data scientist to crawl the internet and scrape the data out and put it in a table. 
+
+We will not talk about any of these methods in this class. We will just assume that data are given to us somehow and they are converted into a machine-readable format. Some statistics class will teach you how to collect data correctly because there are correct and incorrect ways to collect data without biasing it one way or another. 
+
+## Data and Data table files 
+
+In the abstract sense, data is just any information relevant to the task at hand. In the more concrete sense, data is mostly a machine-readable table where each row is an observation and each column is a quantity, quality, category, etc of the observation. In this class, we will work on turning data tables into information. A typical dataset looks like this.
+
+| Building ID | Date | Building type | # of tenants | Water usage (units) | Gas usage (units) |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| 1 | 1/14 | New | 4 | 230 | 3940 |
+| 1 | 2/14 | New | 5 | 240 | 5800 |
+| 2 | 1/14 | Old | 8 | 450 | 7043 |
+| ... |  |  |  |  |  |
+
+How many rows are there? => How many data points are there in this dataset? Each data point is an observation we make about a building and its other attributes (variables), which are in the columns.
+
+At this point, you should know what dataset, data point, row, and column are when we talk about data analysis. These are standard terms. These are things that we will learn how to deal with in this class.
+
+## Plot and summaries
+
+From a data table, we can make/compute
+
+* Pretty plots
+* Summary statistics that are useful and insightful
+* More pretty plots
+
+These three (two?) things are actually difficult to make, and it takes a bit of skill to make and use them effectively. And this is one of the main goals of this course. At the end, you will know how to use statistical programming R and Spreadsheet. They are usually the main tools that most people use to analyze most kinds of data.
+
+## Presentation and narratives
+
+Data do speak loud but they still need to be combined with narratives. The whole purpose of data analysis is to use the data to make an argument, convince people, justify decisions, etc. The pretty plots and summaries we make will show up in an oral presentation to the CEO, a news article, a blog, etc to communicate our findings or to convince people one way or the other.
+
+# R
+
+Throughout this semester, we will be learning the R programming language, which is one of the most powerful programming languages for statistical analysis. R is a bit difficult to use but not that difficult. We speak this language R to tell the computer to do things for us. And that’s what people mean when they say when they say they write a computer program. 
+Computers are actually dumb, so the language that we use to speak to it has to be very precise. Like any language classes, we will learn the grammar and vocabulary to make good sentences in R.
+
+
+

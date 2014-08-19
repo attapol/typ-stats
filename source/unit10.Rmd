@@ -1,6 +1,10 @@
 ---
-title: "Unit 11"
-output: html_document
+title: "Unit 10"
+output:
+  pdf_document:
+    fig_height: 3.6
+    fig_width: 4.8
+  html_document: default
 ---
 # Goals
 
@@ -64,19 +68,21 @@ where $y$ is the waiting time (unknown quantity that we want to predict, respons
 $x$ is the number of people at the stop (predictor).
 
 You crank some number on the computer to get the values of the model parameters, $\beta_0$ and $\beta_1$. The form of the model might look like this:
-$$y = 2 + 0.6 * x$$
+$$y = 10 - 0.6 * x$$
 ```{r}
-time_plot + geom_point() + geom_abline(intercept=2, slope =0.6) 
+time_plot + geom_point() + geom_abline(intercept=10, slope =-0.6) 
 ```
 
 If there are 10 people waiting at the stop, we will predict that the waiting time will be 
-$$y = 2 + 0.6 * 10 = 8 \mbox{minutes}$$
-Substitute 0.8 for $x$ and the prediction just pops right out. How about when there’s only one person waiting at the stop?
-TODO: Adding a few more examples. Go through them to show parameters and how to do ‘inference’ from the model. 
+$$y = 10 - 0.6 * 10 = 4 \mbox{minutes}$$
+Substitute 10 for $x$ and the prediction just pops right out. How about when there’s only one person waiting at the stop?
 
 ## Example:
-Number of employees vs revenue
 
+http://www.stat.wmich.edu/wang/160/egs/slr.pdf
+
+Number of employees vs revenue
+TODO: Adding a few more examples. Go through them to show parameters and how to do ‘inference’ from the model. 
 
 \pagebreak
 
@@ -91,21 +97,21 @@ $$\sum_{i=1}^{n} (y_i - \hat{y_i})^2 $$
 
 ## Exercise : Compute sum of squared error (SSE)
 We want to use SSE to compare model 1:
-$$y = 2 + 0.6 * x$$
+$$y = 9 - 0.6 * x$$
 and model 2:
-$$y = 1 + 0.7 * x$$
+$$y = 11 - 0.7 * x$$
 
 ```{r}
 time_plot + geom_point() + 
-  geom_abline(intercept=2, slope =0.6,color='red') + 
-  geom_abline(intercept=1,slope=0.7, color='blue')
+  geom_abline(intercept=9, slope =-0.6,color='red') + 
+  geom_abline(intercept=11, slope =-0.7, color='blue')
 ```
 
 The red line is from model 1, and the blue line is from model 2.
 Looking at the plots do not really help you much at all. We really need to use SSE to compare the models. 
 
 ```{r}
-yhat = 2 + 0.6 * data$num_people
+yhat = 9 - 0.6 * data$num_people
 y = data$waiting_time
 error_squared = (y - yhat)^2
 sum_of_squared_error = sum(error_squared)
@@ -113,7 +119,7 @@ sum_of_squared_error
 ```
 
 Your turn: compute the sum of squared error of the regression model 
-$$y = 1 + 0.7 * x$$
+$$y = 11 - 0.7 * x$$
 Which one is a better model? 
 
 
@@ -144,15 +150,15 @@ best_lm_model$coefficients[2]
 ## Exercise : Does ``lm`` actually give you the best model?
 As we have discussed before, the best model minimizes sum of squared error.
 Compare the SSE from the ``lm`` function with the model 1 
-$$y = 2 + 0.6 * x$$
+$$y = 9 - 0.6 * x$$
 model 2:
-$$y = 1 + 0.7 * x$$
+$$y = 11 - 0.7 * x$$
 and the best model from ``lm`` function:
 
 ```{r}
 time_plot + geom_point() + 
-  geom_abline(intercept=2, slope =0.6,color='red') + 
-  geom_abline(intercept=1, slope=0.7, color='blue') +
+  geom_abline(intercept=9, slope =-0.6, color='red') + 
+  geom_abline(intercept=11, slope =-0.7, color='blue') +
   geom_abline(intercept=best_lm_model$coefficients[1], 
               slope=best_lm_model$coefficients[2], color='purple')
 ```

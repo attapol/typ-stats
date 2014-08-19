@@ -73,12 +73,14 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <ul>
 <li>The authors conduct two experiments. Explain their process of hypothesis testing for each experiment.</li>
 </ul>
+<p></p>
 </div>
-<div id="aside-t-test-for-hypothesis-testing" class="section level1">
-<h1>Aside : t-test for hypothesis testing</h1>
+<div id="t-test-for-hypothesis-testing" class="section level1">
+<h1>t-test for hypothesis testing</h1>
 <p>So far we assume that we have a way to construct a probability distribution. In fact, there are many ways to carry out this step. It is an active area of research because there are many types of data.</p>
 <p>In classical hypothesis testing, we do not construct a probability distribution over a test statistic given the data. We use other tools to compute p-value. t-test is probably the most used test in computing p-values. When you run a t-test (or other classical tests), it gives you a p-value.</p>
 <p>This p-value thing is very confusing and a bit hard to understand so we won’t try that this semester. But the bottom line is if the p-value is less than your cut-off (usually 0.05), then the effect is statistically significant.</p>
+<p></p>
 <div id="example-1" class="section level2">
 <h2>Example 1</h2>
 <p>Let’s conduct a t-test on the productivity study data that we discussed earlier.</p>
@@ -111,6 +113,7 @@ t.test(long_lunch_data, short_lunch_data)</code></pre>
 ##  mean in group long mean in group short 
 ##               17.75               17.05</code></pre>
 <p>if the p-value is less than your cut-off (usually 0.05), then the difference is statistically significant. Take this step as a face value for now. This t-test thing is a classical technique that people should know. But I personally don’t prefer this method.</p>
+<p></p>
 </div>
 <div id="example-2" class="section level2">
 <h2>Example 2</h2>
@@ -193,26 +196,26 @@ t.test(long_lunch_data, short_lunch_data)</code></pre>
 <pre class="r"><code>new_data = sleep[sample(1:nrow(sleep), replace=TRUE),]
 new_data</code></pre>
 <pre><code>##      extra group ID
-## 1      0.7     1  1
-## 5     -0.1     1  5
-## 17     5.5     2  7
-## 19     4.6     2  9
-## 14     0.1     2  4
-## 9      0.0     1  9
-## 17.1   5.5     2  7
-## 10     2.0     1 10
-## 9.1    0.0     1  9
-## 5.1   -0.1     1  5
 ## 11     1.9     2  1
-## 9.2    0.0     1  9
 ## 13     1.1     2  3
-## 16     4.4     2  6
 ## 4     -1.2     1  4
-## 7      3.7     1  7
-## 10.1   2.0     1 10
-## 7.1    3.7     1  7
-## 3     -0.2     1  3
-## 3.1   -0.2     1  3</code></pre>
+## 19     4.6     2  9
+## 2     -1.6     1  2
+## 17     5.5     2  7
+## 20     3.4     2 10
+## 13.1   1.1     2  3
+## 6      3.4     1  6
+## 5     -0.1     1  5
+## 17.1   5.5     2  7
+## 6.1    3.4     1  6
+## 17.2   5.5     2  7
+## 11.1   1.9     2  1
+## 19.1   4.6     2  9
+## 17.3   5.5     2  7
+## 20.1   3.4     2 10
+## 19.2   4.6     2  9
+## 16     4.4     2  6
+## 11.2   1.9     2  1</code></pre>
 <p>We should note three important things about the fake dataset (bootstrap resample)</p>
 <ol style="list-style-type: decimal">
 <li>The rows are picked randomly from the original dataset.</li>
@@ -225,7 +228,7 @@ new_data</code></pre>
 <h2>Step 2. Compute the quantity of interest from the bootstrap resample.</h2>
 <p>We are interested in the mean difference in extra hours of sleep. So we will go ahead and compute that the mean difference.</p>
 <pre class="r"><code>mean(subset(new_data, group == 1)$extra) - mean(subset(new_data, group==2)$extra)</code></pre>
-<pre><code>## [1] -2.508</code></pre>
+<pre><code>## [1] -2.88</code></pre>
 </div>
 <div id="step-3.-repeat-steps-1-and-2-many-many-times." class="section level2">
 <h2>Step 3. Repeat steps 1 and 2 many many times.</h2>
@@ -250,7 +253,6 @@ mean(mean_differences &gt; 0)</code></pre>
 <li>how to use <code>boot</code> function</li>
 </ol>
 <p>Let’s work on a lab assignment together to get some practice with bootstrap hypothesis testing.</p>
-<p>TODO: make a lab exercise for in class and take-home</p>
 </div>
 </div>
 

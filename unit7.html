@@ -123,8 +123,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p></p>
 </div>
 </div>
-<div id="back-to-statistical-tests" class="section level1">
-<h1>Back to Statistical tests</h1>
+<div id="statistical-tests" class="section level1">
+<h1>Statistical tests</h1>
 <p>Statistical tests help indicate whether we have enough signal (and little enough noise) to make a conclusion. We will go over the overview of all statistical tests to demonstrate the logic behind it and the kind of problem it can solve. There are four steps in conducting statistical test</p>
 <ol style="list-style-type: decimal">
 <li>Formulate the question</li>
@@ -133,17 +133,16 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li>Draw a conclusion from the probability distribution</li>
 </ol>
 <p>Let’s look at the overview of each step</p>
-<ol style="list-style-type: decimal">
-<li>Formulate the question</li>
-</ol>
+<div id="formulate-the-question" class="section level2">
+<h2>1. Formulate the question</h2>
 <p>From the electronic gadget dataset, for example, we would like to answer this multiple-choice question: Do longer lunch breaks increase the number of gadgets that employees can produce?</p>
 <ol style="list-style-type: lower-alpha">
 <li>Yes. Long lunch employees produce more.</li>
 <li>No. Long lunch employees produce less.</li>
 </ol>
-<ol start="2" style="list-style-type: decimal">
-<li>Re-formulate the question mathematically</li>
-</ol>
+</div>
+<div id="re-formulate-the-question-mathematically" class="section level2">
+<h2>2. Re-formulate the question mathematically</h2>
 <p>Let <span class="math">\(\bar{X_1}\)</span> and <span class="math">\(\bar{X_2}\)</span> be the mean number of gadgets produced by long lunch employees and short lunch employees respectively. Then let <span class="math">\(Y=\bar{X_1} - \bar{X_2}\)</span> be the difference between the two means.</p>
 <p><span class="math">\(Y\)</span> is called a test statistic, the measure that will decide the outcome of the statistical test. Which of the following is true?</p>
 <ol style="list-style-type: lower-alpha">
@@ -151,9 +150,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><span class="math">\(Y&lt;0\)</span> Long lunch employees produce significantly less.</li>
 </ol>
 <p>But we have not taken noise into account yet. Y&gt;0might be true just because of the data collection error or other factors that we do not know about. Remember our motivation for statistical hypothesis testing?</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Compute the probability distribution over the test statistic</li>
-</ol>
+<p></p>
+</div>
+<div id="compute-the-probability-distribution-over-the-test-statistic" class="section level2">
+<h2>3. Compute the probability distribution over the test statistic</h2>
 <p>Note that this step actually depends on the dataset and on the question being asked. In some cases, we can compute the probability distribution over Y. In harder cases, we need to compute other statistics. Also, it depends on your philosophy and preferences of statistical methods. Statistics is sometimes a dark art.</p>
 <p>For this running example, we need to compute</p>
 <ol style="list-style-type: lower-alpha">
@@ -161,9 +161,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li>The probability that <span class="math">\(Y&lt;0\)</span> (long lunch employees significantly produce less) = 0.02</li>
 </ol>
 <p>This is the more sophisticated step in statistical tests. We will discuss this step in more detail.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>Draw a conclusion from the probability distribution</li>
-</ol>
+</div>
+<div id="draw-a-conclusion-from-the-probability-distribution" class="section level2">
+<h2>4. Draw a conclusion from the probability distribution</h2>
 <p>We have to set a significance level, which is the level of confidence that we require until we draw a conclusion. It is conventionally set to 0.05 level. This means that If one of the answers receives more than 0.95 (1 - significance level) probability, then that answer is the conclusion.</p>
 <p>If not, then we cannot draw any (decisive) conclusion.</p>
 <p>For our example,</p>
@@ -180,12 +180,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>You are only 70% sure about the answer. This is not enough evidence one way or another given our significance level of 0.05. So we do not draw a conclusion about this question. We cannot conclude either a. or b. We say that we do not have enough evidence to support the hypothesis that long lunch breaks affect the productivity one way or another.</p>
 <p></p>
 </div>
+</div>
 <div id="significance-level-and-the-world" class="section level1">
 <h1>Significance level and the world</h1>
 <p>Let’s look at this case again.</p>
 <ol style="list-style-type: lower-alpha">
-<li>The probability that Y&gt;0(long lunch employees produce significantly more) = 0.70</li>
-<li>The probability that Y&lt;0(long lunch employees produce significantly less) = 0.30</li>
+<li>The probability that <span class="math">\(Y&gt;0\)</span> (long lunch employees produce significantly more) = 0.70</li>
+<li>The probability that <span class="math">\(Y&lt;0\)</span> (long lunch employees produce significantly less) = 0.30</li>
 </ol>
 <p>We are 70% sure about a.</p>
 <ul>

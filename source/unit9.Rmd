@@ -12,8 +12,6 @@ output:
 * Correlation (linear correlation)
 * Correlation does not imply causation
 * Causation
-* Bates data (HGPA vs SAT vs CGPA)  http://www.nacacnet.org/research/research-data/nacac-research/Documents/DefiningPromise.pdf
-* Income inequality data
 
 # Correlation is one of the coolest concepts in statistics
 
@@ -42,17 +40,20 @@ The formula for it is a bit ugly and hairy, so we will only use R or spreadsheet
 
 ## Example 1 : positive correlation
 ```{r}
-#correlation between SAT score and college GPA
+data = read.csv('../datasets/law82.csv')
+cor(data$LSAT, data$GPA)
 ```
 
-The correlation coefficient is positive. That means …
-if the SAT score is high, then the college GPA is high.
-If the SAT score is low, then the college GPA is low. 
+The correlation coefficient is positive. That means ...
+
+If the LSAT score is high, then the college GPA is high.
+
+If the LSAT score is low, then the college GPA is low. 
+
 To state in general, 
 
-if X and Y are positively correlated, 
-then X is high when Y is high 
-and X is low when Y is low.
+> if X and Y are positively correlated, then X is high when Y is high 
+> and X is low when Y is low.
 
 ## Example 2 : negative correlation
 
@@ -82,9 +83,6 @@ Even without calculating the correlation coefficient, you can see the linear tre
 ```{r}
 time_plot + geom_point() + geom_smooth(method='lm')
 ```
-
-## Exercise:  (TODO)
-A dataset with six variables. Explore the correlation between some of the variables. Plot everything too.  (Synthetic data)
 
 \pagebreak
 

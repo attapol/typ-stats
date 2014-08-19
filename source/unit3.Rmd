@@ -1,6 +1,6 @@
 ---
 title: "Unit 3"
-output: pdf_document
+output: html_document
 ---
 
 # Goal
@@ -19,7 +19,8 @@ Pick the guy in the middle
 $$165, 170, 175, 180, 185$$
 
 Easy enough? That 175-cm person seems like a good representative height of people in the room. 
-Why are there multiple ways of finding the “middle”
+Why are there multiple ways of finding the “middle.”
+
 Mean and median are both used very widely. They are appropriate for different purposes even for the exact same dataset. When people talk about average, sometimes they talk about median and sometimes mean. 
 Let’s work through a dataset to illustrate how these two statistics are used.
 
@@ -81,14 +82,6 @@ If you have a good amount of budget and want to be optimal (minimizing the amoun
 Median is good as a representative value of the dataset.
 
 Mean is good when we have to predict the future value based on.
-
-TODO:
-
-You should always report the sample size. 
-Examples from real life
-Every year the census bureau reports the median income. Why not mean?
-They also report the median age of the population. Why not mean?
-
 
 \pagebreak
 
