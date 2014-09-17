@@ -156,9 +156,9 @@ Variance and standard deviation will be much more useful later. Let’s keep the
 
 Compute the variance of the two laser cutters used in cutting the material into 100 millimeters in length. These cutters are not perfect, so the cut material is a bit off from 100 millimeters. You measure the length produced by two laser cutters to evaluate their effectiveness.
 
-Cutter A : 97  97 104 104  99 100  98  98 100 101 101 101
+Cutter A : 97 97 104 104  99 100  98  98 100 101 101 101
 
-Cutter B : 76 101  89 100  86  84  80  93  80  97 103 102
+Cutter B : 101 94 101 100  97 103 101 104 108 102  94  95
 
 Which of the two cutters should you prefer? Compute variance and standard deviation to make a decision. Report the sample size as well.
 
