@@ -60,7 +60,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h1>Goal</h1>
 <ul>
 <li>Median: definition, mean vs median</li>
-<li>Variance and standard deviation: definitions, what they measures</li>
+<li>Variance and standard deviation: definitions, what they measure</li>
+<li>Percentile</li>
+<li>Standardized variables</li>
 </ul>
 </div>
 <div id="median" class="section level1">
@@ -193,6 +195,128 @@ variance</code></pre>
 <p>A rule of thumb is that if you are three sd’s (three sigmas) away from the mean, then you are better (or worse) than anyone else. In our example,</p>
 <p>If you score higher than 60 + (3 x 5) = 75 in economics, then it is very likely you crush almost everyone.</p>
 <p>You only need to know the mean and standard deviation to guess what kind of grade you will get. Most classes will give some sort of A to people who are 1.5 - 2 standard deviations from the mean. Welcome to college, everyone especially those of you who are pre-meds.</p>
+<p># “Everything is relative.” People love saying that everything is relative. And they are right to some degree. As we see from before, we almost always have to compare one number (e.g. your test score) with another (e.g. the mean score). Often times, we have to talk about numbers in relative terms in order to make your numbers meaningful. There are many ways to do that in statistics.</p>
+</div>
+<div id="z-score-as-variable-standardization" class="section level1">
+<h1>Z-score as variable standardization</h1>
+<p>Mean and standard deviation are even more useful together when we talk about numbers in relative terms. We saw a brief example from the test score data. But consider this example. You compete with your roommate in swimming and running. You are a good runner, but your roommate is a good swimmer. You and your roommate run for 10 minutes and swim for 10 minutes. Here are the results</p>
+<p>You ran 1.4 miles and swam 0.34 miles. Your roommate ran 1.31 and swam 0.43 miles.</p>
+<p>How do we find the winner?</p>
+<div id="definition-of-z-score" class="section level2">
+<h2>Definition of Z-score</h2>
+<p>Z-score of a datapoint <span class="math">\(x\)</span> is the number of standard deviation (<span class="math">\(\sigma\)</span>) that it is away from the mean (<span class="math">\(\mu\)</span>).</p>
+<p><span class="math">\[ z = \frac{x - \mu}{\sigma} \]</span></p>
+<p>When data are standardized into z-scores, we can easily combine and compare results across units and across variables.</p>
+<p>Suppose the mean running distance is 1.2 miles and the standard deviation is 0.2. The mean swimming distance is 0.32 miles and the standard deviation is 0.05. What are the z-scores of the race results? Who wins?</p>
+<p>Z-scores are indeed the way to determine the winners in this kind of race. The units are scaled or standardized such that the comparison is fair.</p>
+</div>
+<div id="use-r-to-standardize-variables" class="section level2">
+<h2>Use R to standardize variables</h2>
+<p>R has some convenient functions to standardize variables (converting variables into z-scores). Let’s look at the data just to get a sense.</p>
+<pre class="r"><code>midterm = read.csv('http://www.typ-stats.com/datasets/econ_physics.csv')
+mean(midterm$econ)</code></pre>
+<pre><code>## [1] 56.71</code></pre>
+<pre class="r"><code>sd(midterm$econ)</code></pre>
+<pre><code>## [1] 11.73</code></pre>
+<pre class="r"><code>mean(midterm$physics)</code></pre>
+<pre><code>## [1] 58.15</code></pre>
+<pre class="r"><code>sd(midterm$physics)</code></pre>
+<pre><code>## [1] 13.52</code></pre>
+<pre class="r"><code>summary(midterm)</code></pre>
+<pre><code>##       econ         physics    
+##  Min.   : 0.0   Min.   : 0.0  
+##  1st Qu.:57.1   1st Qu.:54.1  
+##  Median :59.1   Median :60.8  
+##  Mean   :56.7   Mean   :58.1  
+##  3rd Qu.:60.7   3rd Qu.:65.0  
+##  Max.   :63.3   Max.   :75.5</code></pre>
+<p>Obviously, we can compute them directly</p>
+<pre class="r"><code>midterm = read.csv('http://www.typ-stats.com/datasets/econ_physics.csv')
+head(midterm)</code></pre>
+<pre><code>##    econ physics
+## 1 60.06   57.20
+## 2 59.45   57.66
+## 3 55.89   69.58
+## 4 58.20   74.96
+## 5 60.88   63.54
+## 6 61.17   65.50</code></pre>
+<pre class="r"><code>midterm$z_econ = (midterm$econ - mean(midterm$econ)) / sd(midterm$econ)
+midterm$z_physics = (midterm$physics - mean(midterm$physics)) / sd(midterm$physics)
+head(midterm)</code></pre>
+<pre><code>##    econ physics   z_econ z_physics
+## 1 60.06   57.20  0.28541  -0.07069
+## 2 59.45   57.66  0.23350  -0.03648
+## 3 55.89   69.58 -0.07005   0.84494
+## 4 58.20   74.96  0.12740   1.24349
+## 5 60.88   63.54  0.35593   0.39860
+## 6 61.17   65.50  0.38029   0.54383</code></pre>
+<p>It’s not too hard right? But R has a more convenient way as well.</p>
+<pre class="r"><code>midterm = read.csv('http://www.typ-stats.com/datasets/econ_physics.csv')
+head(midterm)</code></pre>
+<pre><code>##    econ physics
+## 1 60.06   57.20
+## 2 59.45   57.66
+## 3 55.89   69.58
+## 4 58.20   74.96
+## 5 60.88   63.54
+## 6 61.17   65.50</code></pre>
+<pre class="r"><code>midterm$z_econ = scale(midterm$econ)
+midterm$z_physics =  scale(midterm$physics)
+head(midterm)</code></pre>
+<pre><code>##    econ physics   z_econ z_physics
+## 1 60.06   57.20  0.28541  -0.07069
+## 2 59.45   57.66  0.23350  -0.03648
+## 3 55.89   69.58 -0.07005   0.84494
+## 4 58.20   74.96  0.12740   1.24349
+## 5 60.88   63.54  0.35593   0.39860
+## 6 61.17   65.50  0.38029   0.54383</code></pre>
+<p></p>
+</div>
+</div>
+<div id="percentile" class="section level1">
+<h1>Percentile</h1>
+<p>If a number is at the <span class="math">\(x\)</span>-th percentile, that means <span class="math">\(x\)</span>% of the data are lower than that number. For example, if your height is at the 80-th percentile, that means 80% of the people are shorter than you. From the percentile, you can conclude that you are indeed quite tall. taller than most people. With this statistic, you can be more quantitative and hence more precise when talking in relative terms.</p>
+<p>Let’s look at a more substantial example. We will reuse the bus travel time data</p>
+<p>Suppose you collect the data about how long the 5:45pm bus route 1 takes to get to Boston <span class="math">\[ 61, 66, 57, 56, 54, 59, 64, 63, 60, 59 \]</span></p>
+<p>You also collect the data about how long the 5:45pm bus route 2 takes to get to Boston. <span class="math">\[ 60, 59, 62, 60, 61, 60, 59, 60, 60, 60 \]</span></p>
+<pre class="r"><code>bus1_data = c(61, 66, 57, 56, 54, 59, 64, 63, 60, 59)
+bus2_data= c(60, 59, 62, 60, 61, 60, 59, 60, 60, 60)
+bus1_data_mean = mean(bus1_data)
+bus1_data_mean</code></pre>
+<pre><code>## [1] 59.9</code></pre>
+<pre class="r"><code>bus2_data_mean = mean(bus2_data)
+bus2_data_mean</code></pre>
+<pre><code>## [1] 60.1</code></pre>
+<p>We can use a function to find the values at various percentiles.</p>
+<pre class="r"><code>quantile(bus1_data)</code></pre>
+<pre><code>##   0%  25%  50%  75% 100% 
+## 54.0 57.5 59.5 62.5 66.0</code></pre>
+<pre class="r"><code>quantile(bus1_data, 0.90)</code></pre>
+<pre><code>##  90% 
+## 64.2</code></pre>
+<pre class="r"><code>quantile(bus2_data)</code></pre>
+<pre><code>##   0%  25%  50%  75% 100% 
+##   59   60   60   60   62</code></pre>
+<pre class="r"><code>quantile(bus2_data, 0.90)</code></pre>
+<pre><code>##  90% 
+## 61.1</code></pre>
+<p>From this information, we can answer many questions:</p>
+<ul>
+<li>If you want to be 90% sure that you are on time when you take route 1, what should your estimate be?</li>
+<li>If you want to be 90% sure that you are on time when you take route 2, what should your estimate be?</li>
+<li>If you want to be 95% sure that you are on time when you take route 1, what should your estimate be?</li>
+<li>If you want to be 95% sure that you are on time when you take route 2, what should your estimate be?</li>
+</ul>
+<p>We just learn how to find the values at each percentile. Now we want the opposite. Given a number, we want to know at what percentile it is. This is quite simple to compute. If your height is 180 cm, then the percentile of your height is simply the percentage of people who are shorter than you.</p>
+<p>Come back to our example.</p>
+<ul>
+<li>Is it unusual for bus route A to take less than 62 minutes? What is the chance of that?</li>
+<li>Is it unusual for bus route B to take less than 62 minutes? What is the chance of that?</li>
+</ul>
+<pre class="r"><code>sum(bus1_data &lt; 62) / length(bus1_data) * 100</code></pre>
+<pre><code>## [1] 70</code></pre>
+<pre class="r"><code>sum(bus2_data &lt; 62) / length(bus2_data) * 100</code></pre>
+<pre><code>## [1] 90</code></pre>
 </div>
 
 
