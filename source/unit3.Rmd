@@ -51,7 +51,7 @@ If you tell the prospective English majors the mean starting salary, that will b
 
 In the second case, we should report the mean because 0.1 % of the mean gives a better picture of the donation that the department will receive.
 
-##Summary
+## Summary
 
 The two summary statistics are good for different purposes. 
 
@@ -183,13 +183,16 @@ If you score higher than 60 + (3 x 5) = 75 in economics, then it is very likely 
 You only need to know the mean and standard deviation to guess what kind of grade you will get. Most classes will give some sort of A to people who are 1.5 - 2 standard deviations from the mean. Welcome to college, everyone especially those of you who are pre-meds.
 
 \pagebreak
+
 # "Everything is relative."
+
 People love saying that everything is relative. And they are right to some degree.
 As we see from before, we almost always have to compare one number (e.g. your test score) with another (e.g. the mean score). 
 Often times, we have to talk about numbers in relative terms in order to make your numbers meaningful. 
 There are many ways to do that in statistics. 
 
 # Z-score as variable standardization
+
 Mean and standard deviation are even more useful together when we talk about numbers in relative terms. 
 We saw a brief example from the test score data. 
 But consider this example. You compete with your roommate in swimming and running. 
