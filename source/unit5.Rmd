@@ -1,10 +1,10 @@
 ---
 title: "Unit 5"
 output:
+  html_document: default
   pdf_document:
     fig_height: 3.6
     fig_width: 4.8
-  html_document: default
 ---
 
 # Goals
@@ -24,8 +24,20 @@ What are the kind of comparison people want to make? What is the baseline for co
 
 Once we define more specifically what we want to measure, we can start comparing them.
 
+# Independent variable and dependent variable
+
+The questions that we pose above all come down to 'what influences what?'. 
+We want to investigate the effects of an independent variable on a dependent variable. 
+Let's continue from the exampels given above.
+
+* We want to investigate the effect of number of teachers (=independent variable) on the school's average SAT score (dependent variable).
+* We want to investigate the effect of high-fructose corn syrup vs sugar (=independent variable) on the sales of the sodat (dependent variable)
+* We want to investigate the effect of advertisement vs not (=independent variable) on the number of likes of company Facebook page (dependent variable).
+
+These questions can be answered by comparing the mean of the dependent variable for each value of independent variable.
+
 # Comparing summary statistics
-We have learned how to compute mean, median, variance, and standard deviation. We can compute these summary statistics for each of the groups and compare them. Let’s run through an example. There is nothing hard conceptually, fortunately.
+We have learned how to compute mean, median, variance, and standard deviation. We can compute these summary statistics for each of the groups (independent variables) and compare them. Let’s run through an example. There is nothing hard conceptually, fortunately.
 
 An iPhone app company is thinking about rolling out its new user interface. They want to know whether the change will affect users’ engagement or not. They keep half of the users on the old interface and roll out the new interface to the other half. For each user, they measure engagement through time spent on the app within one session. 
 
@@ -73,6 +85,8 @@ ddply(d, c("age","interface"), summarize, mean=mean(duration),
 Google doc is pretty lousy with tables. But you should know how to make a table with software of your choice (e.g. Word, Keynote, Powerpoint, Pages)
 
 ## Summary statistics barplot
+
+Usually, we want to put the independent variables on the x-axis and the dependent variable on the y-axis.
 
 ```{r}
 library(ggplot2)
