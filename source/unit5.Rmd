@@ -12,7 +12,7 @@ output:
 * Group variables: analysis and visualization
 * More advanced ggplot 
 
-# Numbers are (almost) meaningless without comparison.
+## Numbers are (almost) meaningless without comparison.
 
 Statistics allows you to make meaningful comparison of anything. People usually want to know whether doing something makes a significant difference or not. Therefore, we usually have at least two groups of data the comparison of which yield a new insight.
 
@@ -76,8 +76,24 @@ In our example, the summary statistics suggest that age does not seem to matter.
 Essentially, we want turn this R output or Pivot table into a presentable form
 
 ```{r} 
-ddply(d, c("age","interface"), summarize, mean=mean(duration), 
-      standard_deviation=sd(duration),n=length(duration))
+another_table = ddply(d, c("age","interface"), summarize, 
+      mean=mean(duration), 
+      standard_deviation=sd(duration),
+      n=length(duration))
+another_table
+```
+
+You can turn it into a nicer thing.
+
+```{r, results='asis'} 
+library(knitr)
+kable(another_table, format='markdown')
+```
+
+Or print it out and copy it to excel or something.
+
+```{r}
+write.table(another_table, sep='\t', quote=FALSE, row.names = FALSE)
 ```
 
 *Exercise:* use Word or google doc or powerpoint or any software that you know how to use to make a good looking table. 
