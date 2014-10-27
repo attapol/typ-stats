@@ -1,0 +1,139 @@
+---
+title: "Unit 5 Part 2"
+author: "te"
+date: "October 27, 2014"
+output: 
+  ioslides_presentation:
+    fig_width: 6
+    fig_height: 3
+---
+
+## Summarize data by groups visually
+This is when things get more interesting. There are many ways to do this. It depends on what you like and what point you want to make from this. We want to focus on these methods:
+
+* A table that displays summary statistics by groups
+* A bar graph that displays summary statistics by groups
+* An overlaying histogram 
+* A multi-faceted histogram 
+* A boxplot 
+
+
+## Iphone app study
+
+An iPhone app company is thinking about rolling out its new user interface. They want to know whether the change will affect users’ engagement or not. 
+
+They keep half of the users on the old interface and roll out the new interface to the other half. For each user, they measure engagement through time spent on the app within one session. 
+
+What's the independent variables?
+
+What's the dependent variable?
+
+
+# Overlaying histograms
+
+## Overlaying histograms
+We have already learned how to make histogram. Now we want to make histograms by group. 
+You only need to add ``fill`` aesthetics to map to the grouping variables. For example:
+
+```{r}
+library(ggplot2)
+d = read.csv('http://www.typ-stats.com/datasets/ui_study.csv')
+ggplot(aes(x=duration,fill=age),data=d) + 
+  geom_histogram(binwidth=2.5) + theme_bw()
+```
+
+##
+
+```{r}
+ggplot(aes(x=duration,fill=interface),data=d) + 
+  geom_histogram(binwidth=2.5) + theme_bw()
+```
+
+##
+
+Overlaying the two histograms. One for the young group and the other for the middle age group.
+It is somewhat clear that the app has many more young users than middle age users. 
+Young users also tend to spend more time on the app.
+
+```{r}
+ggplot(aes(x=duration,fill=age),data=d) + 
+  geom_histogram(binwidth=2.5, position='dodge') + theme_bw()
+```
+
+##
+
+```{r}
+ggplot(aes(x=duration,fill=interface),data=d) + 
+  geom_histogram(binwidth=2.5, position='dodge') + theme_bw()
+```
+
+##
+
+Overlaying the two histograms. One for the new interface and the other for the old interface.
+The new interface seems to make people spend more time on the app but only slightly.
+
+```{r}
+ggplot(aes(x=duration,fill=interaction(age,interface)),data=d) + 
+  geom_histogram(binwidth=2.5, position='dodge') + theme_bw()
+```
+
+Since the age and the interface interact, we have four subgroups to plot. 
+They look very busy and not very informative. 
+
+##
+The histograms are not very good when there are a lot of groups like this. We can avoid them by using ``geom_density`` to draw curves.
+
+```{r}
+ggplot(aes(x=duration,fill=interaction(age,interface)),data=d) + 
+  geom_density() + theme_bw()
+```
+
+##
+Let's make them translucent so that we can see all of them at once. 
+We can do that by setting ``alpha`` to something less than 1 (opaque) and greater than 0 (transparent).
+
+```{r}
+ggplot(aes(x=duration,fill=interaction(age,interface)),data=d) + 
+  geom_density(alpha=0.4) + theme_bw()
+```
+
+# Multiple separate plots (multi-facetting)
+
+##
+
+These graphs are kinda hard to read when we put them all in one plot.
+Another neat way is to put them in separate plot or facet. It is very easy in ggplot. 
+Let's separate out those histograms using faceting.
+
+```{r}
+ggplot(aes(x=duration,y=..density..), data=d) + 
+  geom_histogram(binwidth=2.5, color='white') +
+  geom_density(fill='grey', alpha=0.4) + 
+  facet_wrap(interface~age) + theme_bw()
+```
+
+##
+
+If that's too busy for you, you can look at one factor at the time.
+
+By age 
+
+```{r}
+ggplot(aes(x=duration,y=..density..), data=d) + 
+  geom_histogram(binwidth=2.5, color='white') +
+  geom_density(fill='grey', alpha=0.4) + 
+  facet_wrap(~age) + theme_bw()
+```
+
+## 
+
+By interface
+
+```{r}
+ggplot(aes(x=duration,y=..density..), data=d) + 
+  geom_histogram(binwidth=2.5, color='white') +
+  geom_density(fill='grey', alpha=0.4) + 
+  facet_wrap(~interface) + theme_bw()
+```
+
+
