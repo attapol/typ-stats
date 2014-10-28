@@ -1,0 +1,69 @@
+---
+title: "Sample Statistical Analysis Report"
+author: "Te Rutherford"
+output: pdf_document
+---
+
+# Iphone Study Analysis
+
+The user interface team has designed and developed a new interface for the company's iPhone app, but it is not clear whether the users will respond favorably to the change or not.
+The team conducts a user interface study by deploying the new interface only for half of the users to gauge the effectiveness. 
+Preliminary statistical analyses of this study show that the users respond more favorably for the new interface than the old interface regardless of age although older users spend less time on the app in general. 
+Hence, the new interface should be deployed in order to decrease overall users' engagement with the app.
+
+In this dataset, the researchers measure the number of seconds spent on the app in one session for each type of user interface. 
+The age group of each user is also measured as this variable might interact with the effect of the new or old interface. 
+The dataset consists of a sample of `r nrow(read.csv('~/Dropbox/typ-stats/datasets/ui_study.csv'))` sessions.
+
+## The new interface increases users' engagement
+
+The users' engagement is quantified indirectly by the amount of time spent on the app in one session. 
+We compute the average time spent across all sessions for each type of user interface.
+The users in the new interface groups spend 38.54 seconds ($\sigma=5.9$) per session while the users in the old interface group spend 35.24 seconds ($\sigma=5.8$) per session.
+The new interface increases the session length by 3.30 seconds on average. 
+The variation in the opinion in the two groups is comparable as suggested by comparable standard deviation and the spread in the histogram.
+
+```{r, echo=FALSE, fig.width=2.5, fig.height=3}
+library(ggplot2)
+library(plyr)
+d = read.csv('~/Dropbox/typ-stats/datasets/ui_study.csv')
+ss = ddply(d, c('interface'), summarize, m = mean(duration))
+p = ggplot(mapping=aes(x=interface, y=m), data=ss) + geom_bar(stat='identity') 
+p + scale_x_discrete(name='Interface') + scale_y_continuous(name='Mean duration in seconds', limits=c(0,60)) + theme_bw()
+```
+```{r, echo=FALSE, fig.width=5, fig.height=3}
+ggplot(mapping=aes(x=duration, fill=interface), data=d) + geom_histogram(position='dodge', binwidth=1) + 
+  scale_x_continuous(name='Duration') + theme_bw()
+
+```
+
+## The new interface pleases both younger and older users.
+
+On the contrary to what is previously hypothesized, the younger and older users spend the almost same amount of the time on the app. 
+The average time for younger users is `r round(mean(subset(d, age=='young')$duration), 2)` ($\sigma=$ `r round(sd(subset(d, age=='young')$duration), 2)`), and the average time for older users is `r round(mean(subset(d, age=='middle age')$duration), 2)` ($\sigma=$ `r round(sd(subset(d, age=='middle age')$duration), 2)`). 
+The distributions of the two age groups look similar, but there are a lot more younger users (n=`r sum(d$age =='young')`) than middle age users (n=`r sum(d$age =='middle age')`) in this study. 
+
+```{r, echo=FALSE, fig.width=6, fig.height=3.5}
+ggplot(mapping=aes(x=duration, fill=age), data=d) + geom_histogram(position='dodge', binwidth=1) + 
+  scale_x_continuous(name='Duration') +  scale_y_continuous(limits=c(0,13)) + theme_bw()
+```
+
+We also hypothesize that middle-aged users might not be receptive to the new interface and spend less time on the app, but this hypothesis is disproved by the data. 
+We compare the average session length for each combination of age group and interface type. 
+The effects of the new interface can be equivalently observed for both age groups. 
+
+```{r, echo=FALSE, fig.width=4, fig.height=3}
+ss = ddply(d, c('age', 'interface'), summarize, m = mean(duration))
+p = ggplot(mapping=aes(x=age, y=m, fill=interface), data=ss) + geom_bar(stat='identity', position='dodge') 
+p + scale_x_discrete(name='Age') + scale_y_continuous(name='Mean duration in seconds', limits=c(0,60)) + theme_bw()
+```
+
+
+We have examined the effects of the new user interface and its interaction with age of the app on the level of users' engagement in the app. 
+The data suggest that the interface improve the app by increasing the average session length. 
+The age does not have the direct influence on the session length nor does it interact with the interface type. 
+The new interface should be able to deployed without unintended adverse effects caused by the interaction with the age of users. 
+
+
+
+
