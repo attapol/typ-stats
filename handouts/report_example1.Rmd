@@ -28,12 +28,12 @@ library(ggplot2)
 library(plyr)
 d = read.csv('~/Dropbox/typ-stats/datasets/ui_study.csv')
 ss = ddply(d, c('interface'), summarize, m = mean(duration))
-p = ggplot(mapping=aes(x=interface, y=m), data=ss) + geom_bar(stat='identity') 
-p + scale_x_discrete(name='Interface') + scale_y_continuous(name='Mean duration in seconds', limits=c(0,60)) + theme_bw()
+p = ggplot(mapping=aes(x=interface, y=m), data=ss) + geom_bar(stat='identity', fill='grey') 
+p + scale_x_discrete(name='Interface') + scale_y_continuous(name='Mean duration in seconds', limits=c(0,60)) +  theme_bw()
 ```
 ```{r, echo=FALSE, fig.width=5, fig.height=3}
 ggplot(mapping=aes(x=duration, fill=interface), data=d) + geom_histogram(position='dodge', binwidth=1) + 
-  scale_x_continuous(name='Duration') + theme_bw()
+  scale_x_continuous(name='Duration') + scale_fill_grey(start=0.5) + theme_bw()
 
 ```
 
@@ -45,7 +45,7 @@ The distributions of the two age groups look similar, but there are a lot more y
 
 ```{r, echo=FALSE, fig.width=6, fig.height=3.5}
 ggplot(mapping=aes(x=duration, fill=age), data=d) + geom_histogram(position='dodge', binwidth=1) + 
-  scale_x_continuous(name='Duration') +  scale_y_continuous(limits=c(0,13)) + theme_bw()
+  scale_x_continuous(name='Duration') +  scale_y_continuous(limits=c(0,13))  + scale_fill_grey(start=0.5)  + theme_bw()
 ```
 
 We also hypothesize that middle-aged users might not be receptive to the new interface and spend less time on the app, but this hypothesis is disproved by the data. 
@@ -55,14 +55,15 @@ The effects of the new interface can be equivalently observed for both age group
 ```{r, echo=FALSE, fig.width=4, fig.height=3}
 ss = ddply(d, c('age', 'interface'), summarize, m = mean(duration))
 p = ggplot(mapping=aes(x=age, y=m, fill=interface), data=ss) + geom_bar(stat='identity', position='dodge') 
-p + scale_x_discrete(name='Age') + scale_y_continuous(name='Mean duration in seconds', limits=c(0,60)) + theme_bw()
+p + scale_x_discrete(name='Age') + scale_y_continuous(name='Mean duration in seconds', limits=c(0,60)) + scale_fill_grey(start=0.5)  + theme_bw()
 ```
 
+## The new interface is ready to deploy
 
 We have examined the effects of the new user interface and its interaction with age of the app on the level of users' engagement in the app. 
 The data suggest that the interface improve the app by increasing the average session length. 
 The age does not have the direct influence on the session length nor does it interact with the interface type. 
-The new interface should be able to deployed without unintended adverse effects caused by the interaction with the age of users. 
+The new interface should be able to be deployed without unintended adverse effects caused by the interaction with the age of users. 
 
 
 
