@@ -1,0 +1,173 @@
+---
+title: 'Unit 7 : Statistical Testing'
+author: "Te Rutherford"
+date: "November 19, 2014"
+output: ioslides_presentation
+---
+
+## Long lunch vs short lunch data 
+
+There are a few employees in the short lunch break group who are more productive than the ones in the long lunch break group. Why? 
+
+```{r, echo=FALSE}
+data = read.csv('http://www.typ-stats.com/datasets/lunch_data.csv')
+head(subset(data, condition =='long'))
+head(subset(data, condition =='short'))
+```
+
+## Statistical noise
+
+There are at least three sources of noise:
+
+* Data collection error
+* Inherent variation in the system 
+* Error caused by sampling
+
+The noise in the data make us uncertain about the conclusion we can draw. These are the very reasons why we need to use statistical tests. 
+
+## Statistical tests
+
+Statistical tests help indicate whether we have enough signal (and little enough noise) to make a conclusion.
+There are four steps in conducting statistical test
+
+* Formulate the question
+* Re-formulate the question mathematically
+* Compute the probability distribution over the test statistic
+* Draw a conclusion from the probability distribution
+
+
+Let’s look at the overview of each step
+
+## 1. Formulate the question
+
+From the electronic gadget dataset, for example, we would like to answer this multiple-choice question:
+Do longer lunch breaks increase the number of gadgets that employees can produce?
+
+* Yes. Long lunch employees produce more.
+* No. Long lunch employees produce less.
+
+## 2. Re-formulate the question mathematically
+
+Let $\bar{X_1}$ and $\bar{X_2}$ be the *true* mean number of gadgets produced by long lunch employees and short lunch employees respectively. Then let $Y=\bar{X_1} - \bar{X_2}$ be the difference between the two means. 
+
+$Y$ is called a test statistic, the measure that will decide the outcome of the statistical test.
+Which of the following is true?
+
+* $Y>0$ Long lunch employees produce significantly more.
+* $Y<0$ Long lunch employees produce significantly less.
+
+Remember our motivation for statistical hypothesis testing? 
+
+
+## 3. Compute the probability distribution over the test statistic
+
+Suppose we have ways to compute $P(Y)$
+
+For this running example, we need to compute 
+
+* The probability that $Y>0$ (long lunch employees significantly produce more) = 0.98
+* The probability that $Y<0$ (long lunch employees significantly produce less) = 0.02
+
+This is the more sophisticated step in statistical tests. We will discuss this step in more detail.
+
+## 4. Draw a conclusion from the probability distribution
+
+We have to set a significance level, which is the level of confidence that we require until we draw a conclusion. It is conventionally set to 0.05 level. 
+
+If not, then we cannot draw any (decisive) conclusion.
+
+For our example, 
+
+* The probability that $Y>0$ (long lunch employees produce significantly more) = 0.98
+* The probability that $Y<0$ (long lunch employees produce significantly less) = 0.02
+
+We conclude a. because the probability is greater than 0.95.  This is the answer to the original question posed in step 1. 
+
+## 
+
+Hypothetically, though if the results from step 3 give us. 
+
+* The probability that $Y>0$ (long lunch employees produce significantly more) = 0.70
+* The probability that $Y<0$ (long lunch employees produce significantly less) = 0.30
+
+
+We say that we do not have enough evidence to support the hypothesis that long lunch breaks affect the productivity one way or another. 
+
+
+## Significance level and the world
+
+Let’s look at this case again.
+
+* The probability that $Y>0$ (long lunch employees produce significantly more) = 0.70
+* The probability that $Y<0$ (long lunch employees produce significantly less) = 0.30
+
+We are 70% sure about a. 
+
+* If we want to conclude a., do we have to raise or lower significance level?
+* Why can’t we just adjust our significance level to be more level and conclude a.? 
+* Suppose we do that, what will be the consequences?
+
+# Bootstrap test
+
+
+##  Bootstrap for constructing a probability distribution over a test statistic
+
+Bootstrap is a simple technique for computing the probability of the test statistic taking a certain range of value. To demonstrate how each step works, let’s go through an example from the soporific drug study. 
+
+* Before we start, go over the four steps for conducting hypothesis testing for this example.
+
+\pagebreak
+
+# Bootstrap algorithm (steps of calculation)
+
+## Step 1. Resample the data
+
+By resampling, one take random rows from the dataset to make a fake dataset of the same size. We call this bootstrap resample. For example, if the original dataset looks like this
+
+```{r}
+sleep
+```
+
+## 
+Then a fake dataset (bootstrap resample) might look like this: 
+```{r}
+new_data = sleep[sample(1:nrow(sleep), replace=TRUE),]
+new_data
+```
+
+
+## Step 2. Compute the quantity of interest from the bootstrap resample.
+
+We are interested in the mean difference in extra hours of sleep. So we will go ahead and compute that the mean difference. 
+
+```{r} 
+group1_data = subset(new_data, group == 1) 
+group2_data = subset(new_data, group == 2)
+mean(group1_data$extra) - mean(group2_data$extra)
+```
+
+## Step 3. Repeat steps 1 and 2 many many times. 
+
+In this dataset, we will end up with many different values of the mean difference in extra hours of sleep (computed from the bootstrap resamples).
+
+
+From these values, we can compute the probability that the mean difference in extra hours of sleep is greater than zero.  = 
+
+
+$$\frac{ \mbox{the number of bootstrap resamples whose mean difference} > 0} 
+      {\mbox{the total number of bootstrap resamples}}$$
+
+## Bootstrap in R 
+
+All of this can be done using package boot in R.
+
+```{r}
+library(bootstrap)    
+group1_means = bootstrap(group1_data$extra, 100, mean)$thetastar
+group2_means = bootstrap(group2_data$extra, 100, mean)$thetastar
+y = group1_means - group2_means
+sum(y > 0)/ length(y)
+```
+
+
+\
