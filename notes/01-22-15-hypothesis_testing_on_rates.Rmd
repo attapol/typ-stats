@@ -1,0 +1,75 @@
+---
+title: "Hypothesis testing on rates"
+author: "Te Rutherford"
+date: "January 22, 2015"
+output: beamer_presentation
+---
+
+## Today
+
+* Using samples to estimate true rates.
+* Bootstrap method for hypothesis testing on rates.
+* Bootstrap method for finding a confidence interval.
+
+## How do you estimate the true rate?
+
+* Examples of rates:
+    + The rate of a coin landing heads
+    + The rate of a new medication being effective on patients
+
+* What is the formula for estimating the rate from samples?
+    + If a coin lands heads 56 times and tails 54 times, the rate of landing heads is 56 / (56 + 54)
+    + If a new medication works on 300 patients but does not work on 150 patients,
+the rate of medication being effective is 300 / (300 + 150)
+
+* In general, the success rate is equal to 
+$$ \frac{\#succeses}{\#successes + \#failures}$$
+
+## Inference on true rates
+
+* Inference means you try to get close to the answer or the truth.
+* Unfortunately, we never know the true rate of anything really... :(
+
+
+## What kind of question can we answer?
+
+* Is the rate of medication being effective more than 0.7?
+* Is the rate of a coin landing heads more 0.5? 
+    + If the rate is > 0.5, then we learn that the coin is crooked or not symmetric.
+
+## Hypothesis testing 
+
+* Instead we ask, what is the probability that the rate is > 0.7?
+    + The hypothesis is the rate is > 0.7. <--- We will test this. 
+* Instead we ask, what is the probability that the rate is > 0.5?
+    + The hypothesis is the rate is > 0.5. <--- We will test this.
+
+* If the probability of the hypothesis is > 0.95, we accept it and
+conclude that the hypothesis is true. 
+    + 0.95 is agreed upon by people. 
+
+## Bootstrap hypothesis testing on rates
+
+The general procedure is
+
+* Generate a bunch of rate*s (using `bootstrap` function)
+* Compute the probability that the hypothesis is true
+
+
+## Let's do Bootstrapping in R 
+
+```{r}
+library(bootstrap)
+medication_data = c(rep(0,150), rep(1,300))
+crazybootstrapthingie= 
+  bootstrap(medication_data, nboot=10000, theta=mean)
+sum(crazybootstrapthingie$thetastar> 0.7)
+sum(crazybootstrapthingie$thetastar> 0.7) / 10000
+
+```
+
+
+
+
+
+
