@@ -1,0 +1,48 @@
+---
+title: "Wrapping up Hypothesis Testing on Proportion"
+author: "Te Rutherford"
+date: "February 5, 2015"
+output:
+  beamer_presentation:
+    fig_height: 3
+    fig_width: 2
+---
+
+## Today
+
+* One more example of confidence interval and hypothesis testing
+* Practical significance vs statistical significance
+* What if we have population data
+
+## GT200 the bomb detector
+
+* Probably the most expensive scam in the world with significant political repercussion.
+* https://www.youtube.com/watch?v=Ykv4PU7QXnU
+
+## Testing GT200
+
+* Systematic test
+* Four boxes one of which contains a bomb. Go find it using this plastic piece of junk.
+* If you pick randomly, what is the rate of identifying the bomb?
+* 60 trials of the test. The officers correctly identify the bomb 18 times. 
+
+## Bootstrap hypothesis testing
+
+```{r}
+library(bootstrap)
+gt200data = c(rep(1, 18), rep(0, 60-18))
+b = bootstrap(gt200data, nboot=10000, theta=mean)
+sum(b$thetastar > 0.25) / 10000
+```
+What do we conclude?
+
+## Bootstrap confidence interval
+
+```{r}
+gt200data = c(rep(1, 18), rep(0, 60-18))
+b = bcanon(gt200data, nboot=10000, theta=mean, 
+           alpha=c(0.975, 0.025))
+b$confpoints
+```
+What is the practical interpretation of the confidence interval?
+
