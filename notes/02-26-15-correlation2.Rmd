@@ -1,0 +1,160 @@
+---
+title: "Interpretation of Correlation"
+author: "Te Rutherford"
+date: "February 26, 2015"
+output:
+  beamer_presentation:
+    fig_height: 4.5
+    fig_width: 9
+---
+# Agenda
+* Last time
+    + Positive correlation
+    + Negative correlation
+    + Scatterplot and linear trend line
+* Today
+    + Interpretation of correlation
+    + Causation
+
+# 50 shades of scatterplot
+
+```{r,echo=FALSE}
+set.seed(10)
+x1 = rnorm(40)
+y1 = rnorm(n=40,mean=-x1,sd=1)
+
+x2 = rnorm(40)
+y2 = rnorm(n=40,mean=-x2,sd=2)
+par(mfcol=c(1,2))
+plot(x1, y1)
+plot(x2, y2)
+```
+
+# 50 shades of scatterplot
+
+```{r,echo=FALSE}
+set.seed(10)
+x1 = rnorm(40)
+y1 = rnorm(n=40,mean=-x1,sd=1)
+
+x2 = rnorm(40)
+y2 = rnorm(n=40,mean=-x2,sd=2)
+par(mfcol=c(1,2))
+plot(x1, y1)
+plot(x2, y2)
+```
+```{r}
+cor(x1, y1)
+cor(x2, y2)
+```
+
+# Negative Correlation : Interpretation
+
+* $-1 < r < -0.7$ x and y are strongly negatively correlated
+    + If x is high, then y is low. But there are not many exceptions.
+* $-0.7 < r < -0.3$ x and y are weakly negatively correlated
+    + If x is high, then y is low. But there are a lot of exceptions.
+
+# 50 shades of scatterplot
+```{r, echo=FALSE}
+x4 = rnorm(40)
+y4 = rnorm(n=40,mean=x4,sd=2)
+
+x5 = rnorm(40)
+y5 = rnorm(n=40,mean=x5,sd=1)
+
+par(mfcol=c(1,2))
+plot(x4, y4)
+plot(x5, y5)
+```
+
+# 50 shades of scatterplot
+```{r, echo=FALSE}
+x4 = rnorm(40)
+y4 = rnorm(n=40,mean=x4,sd=2)
+
+x5 = rnorm(40)
+y5 = rnorm(n=40,mean=x5,sd=1)
+
+par(mfcol=c(1,2))
+plot(x4, y4)
+plot(x5, y5)
+```
+```{r}
+cor(x4, y4)
+cor(x5, y5)
+```
+
+# Positive Correlation : Interpretation
+
+* $ 0.7 < r < 1$ x and y are strongly positively correlated
+    + If x is high, then y is high. But there are not many exceptions.
+* $ 0.3 < r < 0.7$ x and y are weakly positively correlated
+    + If x is high, then y is high. But there are a lot of exceptions.
+
+# 50 shades of scatterplot
+```{r, echo=FALSE}
+x3 = rnorm(40)
+y3 = rnorm(40)
+
+x6 = rnorm(40)
+y6 = rnorm(40)
+par(mfcol=c(1,2))
+plot(x3, y3)
+plot(x6, y6)
+```
+
+# 50 shades of scatterplot
+```{r, echo=FALSE}
+x3 = rnorm(40)
+y3 = rnorm(40)
+
+
+x6 = rnorm(40)
+y6 = rnorm(40)
+par(mfcol=c(1,2))
+plot(x3, y3)
+plot(x6, y6)
+```
+```{r}
+cor(x3, y3)
+cor(x6, y6)
+```
+
+
+# Lack of Correlation : Interpretation
+
+* $ -0.3< r < 0.3$ x and y are not correlated. 
+    + There is no relationship between x and y.
+    
+# Correlation does not always imply causation
+
+![xkcd](http://imgs.xkcd.com/comics/correlation.png)
+
+* It is a crime not to know this mantra. So let me say it again: correlation does not imply causation.
+
+# Example
+* Waiting duration and the number of people at the stop are negatively correlated.
+* We cannot infer that the number of people CAUSES the waiting time to go down. 
+* Correlation does not imply causation.
+
+# Example
+* High school GPA and college GPA are positively correlated.
+* If we hack into the high school database and change our GPA to be very high, the college GPA won’t increase. 
+* We cannot infer that the high school GPA causes the college GPA to go up or down
+* Correlation does not imply causation.
+
+# To be even more absurd, look at this correlation. 
+
+![spurious correlation](http://www.tylervigen.com/correlation_project/correlation_images/us-spending-on-science-space-and-technology_suicides-by-hanging-strangulation-and-suffocation.png)
+
+* We have the correlation, but we cannot infer that the US government has increased the spending on science to cause suicides. 
+* Or we cannot infer that the US spending in science makes people suicidal. 
+
+# Other correlation
+
+* The number of donkeys in a state is negatively correlated with the number of PhD graduates.
+* Foot sizes are positively correlated with brain sizes.
+* High Fructose Corn Syrup consumption is correlated with body fat.
+* Household income is correlated with SAT score.
+    
