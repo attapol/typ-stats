@@ -27,21 +27,19 @@ x2 = rnorm(40)
 y2 = rnorm(n=40,mean=-x2,sd=2)
 par(mfcol=c(1,2))
 plot(x1, y1)
+abline(lm(y1~x1))
 plot(x2, y2)
+abline(lm(y2~x2))
 ```
 
 # 50 shades of scatterplot
 
 ```{r,echo=FALSE}
-set.seed(10)
-x1 = rnorm(40)
-y1 = rnorm(n=40,mean=-x1,sd=1)
-
-x2 = rnorm(40)
-y2 = rnorm(n=40,mean=-x2,sd=2)
 par(mfcol=c(1,2))
 plot(x1, y1)
+abline(lm(y1~x1))
 plot(x2, y2)
+abline(lm(y2~x2))
 ```
 ```{r}
 cor(x1, y1)
@@ -65,20 +63,19 @@ y5 = rnorm(n=40,mean=x5,sd=1)
 
 par(mfcol=c(1,2))
 plot(x4, y4)
+abline(lm(y4~x4))
 plot(x5, y5)
+abline(lm(y5~x5))
 ```
 
 # 50 shades of scatterplot
 ```{r, echo=FALSE}
-x4 = rnorm(40)
-y4 = rnorm(n=40,mean=x4,sd=2)
-
-x5 = rnorm(40)
-y5 = rnorm(n=40,mean=x5,sd=1)
 
 par(mfcol=c(1,2))
 plot(x4, y4)
+abline(lm(y4~x4))
 plot(x5, y5)
+abline(lm(y5~x5))
 ```
 ```{r}
 cor(x4, y4)
@@ -87,9 +84,9 @@ cor(x5, y5)
 
 # Positive Correlation : Interpretation
 
-* $ 0.7 < r < 1$ x and y are strongly positively correlated
+* $0.7 < r < 1$ x and y are strongly positively correlated
     + If x is high, then y is high. But there are not many exceptions.
-* $ 0.3 < r < 0.7$ x and y are weakly positively correlated
+* $0.3 < r < 0.7$ x and y are weakly positively correlated
     + If x is high, then y is high. But there are a lot of exceptions.
 
 # 50 shades of scatterplot
@@ -101,20 +98,18 @@ x6 = rnorm(40)
 y6 = rnorm(40)
 par(mfcol=c(1,2))
 plot(x3, y3)
+abline(lm(y3~x3))
 plot(x6, y6)
+abline(lm(y6~x6))
 ```
 
 # 50 shades of scatterplot
 ```{r, echo=FALSE}
-x3 = rnorm(40)
-y3 = rnorm(40)
-
-
-x6 = rnorm(40)
-y6 = rnorm(40)
 par(mfcol=c(1,2))
 plot(x3, y3)
+abline(lm(y3~x3))
 plot(x6, y6)
+abline(lm(y6~x6))
 ```
 ```{r}
 cor(x3, y3)
@@ -124,7 +119,7 @@ cor(x6, y6)
 
 # Lack of Correlation : Interpretation
 
-* $ -0.3< r < 0.3$ x and y are not correlated. 
+* $-0.3< r < 0.3$ x and y are not correlated. 
     + There is no relationship between x and y.
     
 # Correlation does not always imply causation

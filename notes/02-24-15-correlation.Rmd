@@ -112,22 +112,4 @@ cor(caffeine_data$caffeine, caffeine_data$productivity)
 We get a negative correlation, which is not the entire story for this dataset. 
 
 
-# Correlation does not always imply causation
-
-![xkcd](http://imgs.xkcd.com/comics/correlation.png)
-
-* It is a crime not to know this mantra. So let me say it again: correlation does not imply causation.
-
-# Example
-* Back to our example of correlation between waiting time and number of people at the bus stop. We clearly have the negative correlation, but we cannot infer that the number of people CAUSES the waiting time to go down. Correlation does not imply causation.
-
-# Example
-* If we hack into the high school database and change our gpa to be very high, the college GPA won’t increase. We cannot infer that the high school GPA causes the college GPA to go up or down. Correlation does not imply causation.
-
-# To be even more absurd, look at this correlation. 
-
-![spurious correlation](http://www.tylervigen.com/correlation_project/correlation_images/us-spending-on-science-space-and-technology_suicides-by-hanging-strangulation-and-suffocation.png)
-
-We have the correlation, but we cannot infer that the US government has increased the spending on science to cause suicides. Or we cannot infer that the US spending in science makes people suicidal. 
-The obesity rate is correlated with many things. But we can never know the cause of obesity just by looking at the data. 
 
