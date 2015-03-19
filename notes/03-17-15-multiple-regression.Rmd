@@ -1,0 +1,57 @@
+---
+title: "03-17-15-multiple-regression"
+author: "Te Rutherford"
+date: "March 17, 2015"
+output:
+  beamer_presentation:
+    fig_height: 2
+    fig_width: 3
+    incremental: yes
+---
+# Fitting multiple regression model
+
+* The data look like this
+```{r}
+mydata = data.frame(pressure = 1:5, temperature=c(1,2,2,4,3), compression=c(1,1,2,2,4))
+mydata
+```
+
+# R Command for fitting multiple regression
+```{r,eval=FALSE}
+nameyourmodelhere = lm(compression ~ pressure + temperature, 
+                       data=mydata)
+summary(nameyourmodelhere)
+```
+    all:
+    lm(formula = compression ~ pressure + temperature, 
+      data = mydata)
+
+    Residuals:
+        1     2     3     4     5 
+     0.25 -0.15 -0.30  0.05  0.15 
+
+    Coefficients:
+                Estimate Std. Error t value Pr(>|t|)  
+    (Intercept)   0.3500     0.3640   0.962   0.4377  
+    pressure      1.1500     0.1803   6.379   0.0237 *
+    temperature  -0.7500     0.2500  -3.000   0.0955 .
+    ---
+    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+    Residual standard error: 0.3162 on 2 degrees of freedom
+    Multiple R-squared:  0.9667,  Adjusted R-squared:  0.9333 
+    F-statistic:    29 on 2 and 2 DF,  p-value: 0.03333
+
+# New concepts
+* What is $r^2$?
+* What is adjusted $r^2$? What is it adjusted for? 
+
+# Steps in regression analysis
+
+* Determine predictors ($x_1, x_2, \dots$) and dependent variable $y$
+* Fit the linear regression model with `lm` command
+* Interpret the regression coefficients ($\beta_0, \beta_1, \beta_2, \dots, \beta_n$)
+* Interpret $r^2$ and adjusted $r^2$. (How good is our model?)
+* Determine whether $\beta_1$ is significant. Interpret the significance. 
+
+

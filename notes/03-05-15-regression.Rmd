@@ -1,0 +1,50 @@
+---
+title: "Simple Regression Model"
+author: "Te Rutherford"
+date: "March 5, 2015"
+output:
+  beamer_presentation:
+    fig_height: 2
+    fig_width: 3
+---
+# Agenda
+* Last time
+    + Linear model
+    + Using linear model to make a prediction
+    + Interpretation of linear model
+* Today
+    + Simple regression model
+    + Getting the 'best' regression model
+
+# Regression model
+
+* Simple Linear Model 
+
+$$ y = \beta_0 + \beta_1 x $$
+
+* Simple Linear Regression Model
+
+$$ y = \beta_0 + \beta_1 x + \epsilon$$
+
+
+# Correlation is usually not perfect. 
+```{r,echo=FALSE}
+data = data.frame(pressure=1:5, compression=c(1,1,2,2,4))
+data
+```
+```{r, echo=FALSE}
+library(ggplot2)
+ggplot(data=data, mapping=aes(x=pressure, y=compression)) + geom_point()
+```
+
+# It's hard to draw a line
+
+```{r, echo=FALSE}
+ggplot(data=data, mapping=aes(x=pressure, y=compression)) + geom_point() +
+  geom_abline(intercept=-1, slope=1) 
+```
+
+```{r}
+ggplot(data, mapping=aes(x=pressure, y=compression)) + geom_point() + geom_abline(intercept=1/4, slope=3/4, color='green') + geom_abline(intercept=-1.5, slope=0.5,color='purple') + geom_abline(intercept=-0.5, slope=5/6, color='red') + geom_smooth(method='lm', color='black')
+```
+

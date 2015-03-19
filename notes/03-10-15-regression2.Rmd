@@ -1,0 +1,80 @@
+---
+title: "Assessing the Utility of the Model"
+author: "Te Rutherford"
+date: "March 10, 2015"
+output:
+  beamer_presentation:
+    fig_height: 2
+    fig_width: 3
+---
+# Agenda
+* Last time
+    + Sum of Squared Error
+    + Fitting the linear regression model with `lm`
+* Today
+    + Assessing the utility of the model
+
+# Fitting the linear regression model 
+* Method of Least Square is used by `lm` function. 
+```{r}
+d = read.csv('http://www.typ-stats.com/datasets/pressure.csv')
+lm(compression ~ pressure, data=d)
+```
+
+# Should we need $\beta_1$?
+
+$$ y = \beta_0 + \beta_1 x + \epsilon$$
+
+* $\beta_0$ is called intercept term.
+* $\beta_1$ is called the slope. 
+
+$$ y = \beta_0  + \epsilon$$
+
+* Just the intercept term 
+
+# The P-value for the slope term
+
+```{r}
+d = read.csv('http://www.typ-stats.com/datasets/pressure.csv')
+insanelinearmodel = lm(compression ~ pressure, data=d)
+summary(insanelinearmodel)
+```
+
+# The P-value
+
+* If p-value for the slope term is less than 0.05, then the slope term significantly contributes to the prediction of the dependent variable $y$ using the linear model. 
+
+* The p-value is at 0.0354. It even has a star next to it.
+
+# R-Squared or the coefficient of determination
+
+* SSE is meaningful when comparing models.  (relative term)
+* R-Squared or the coefficient of determination indicates how well the model does in the absolute term.
+
+# What is R-Squared?
+
+* The improvement on SSE from adding $\beta_1$. 
+* Compute SSE from Model 1
+$$ y = \beta_0 + \beta_1 x + \epsilon$$
+* Compute SSE from Model 2
+$$ y = \beta_0  + \epsilon$$
+
+* Compute the percent reduction of SSE. 
+
+# Understanding R-Squared
+
+* What happens when R-Squared is low?
+* What happens when R-Squared is high?
+
+#10.58
+a. 
+library(ggplot2)
+ggplot(data=d, mapping=aes(x=TEMP, y= PROPPASS)) + geom_point()
+
+b. 
+lm(PROPPASS ~ TEMP, data= d)
+ggplot(data=d, mapping=aes(x=TEMP, y= PROPPASS)) + geom_point() + geom_smooth(method='lm')
+ggplot(data=d, mapping=aes(x=TEMP, y= PROPPASS)) + geom_point() + geom_abline(intercept=-13.49, slope=-0.05)
+
+crazylinearmodel = lm(PROPPASS ~ TEMP, data= d)
+summary(crazylinearmodel)
